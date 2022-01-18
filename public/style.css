@@ -1,4 +1,22 @@
+:root{
+    --main-color:#94594b;
+    --bg:#121212;
+}
+
+html{
+    font-size: 100%;
+    overflow-x: hidden;
+    scroll-padding-top: 9rem;
+    scroll-behavior: smooth;
+}
+
 body{
-    margin: 0em;
-    padding: 0;
+    background: var(--bg);
+}
+
+.navbar{
+    background: var(--bg);
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 7%;
 }
