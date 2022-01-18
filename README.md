@@ -6,7 +6,23 @@ the end users will be people who are looking to buy lego bricks from many age ra
 
 ## what do they expect to see
 
+end users need to be able to:
+- easily navigate the website
+- see all the lego bricks available
+- add bricks to a basket
+- checkout & pay
+
 ## todo:
+
+- design a home page
+
+- design a store page
+
+- design a basket page
+
+- database
+  - design a database system that is accessible for the server.
+  - impliment the database system
 
 ## maybe:
 

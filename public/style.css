@@ -10,11 +10,11 @@ html{
     scroll-behavior: smooth;
 }
 
-body{
+.body{
     background: var(--bg);
 }
 
-.navbar{
+.header{
     background: var(--bg);
     align-items: center;
     justify-content: space-between;
