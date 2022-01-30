@@ -1,9 +1,9 @@
 const navbar = document.querySelector('.navbar');
 
-function loadItemsPage() {
+function LoadItemsPage() {
   document.location.href = 'items.html';
 }
 
 navbar.addEventListener('click', () => {
-  loadItemsPage();
+  LoadItemsPage();
 });

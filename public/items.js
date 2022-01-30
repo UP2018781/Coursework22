@@ -1,9 +1,9 @@
 const back = document.querySelector('#back');
 
-function getMainPage() {
+function GetMainPage() {
   document.location.href = 'index.html';
 }
 
 back.addEventListener('click', () => {
-  getMainPage();
+  GetMainPage();
 });

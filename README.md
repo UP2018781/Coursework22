@@ -1,10 +1,18 @@
 # _Lego Store_
 
-## End users
+## Coding
+
+### casing
+
+FunctionsLikeThis
+variablesLikeThis
+files.likethis
+
+### End users
 
 the end users will be people who are looking to buy lego bricks from many age ranges and also people who want to sell bricks. In this case the seller has been defined as one person: the store owner.
 
-## what do they expect to see
+### what do they expect to see
 
 end users need to be able to:
 
@@ -16,7 +24,7 @@ end users need to be able to:
 
 - checkout & pay
 
-## to do
+### to do
 
 - design a home page
 
@@ -28,6 +36,6 @@ end users need to be able to:
   - design a database system that is accessible for the server.
   - impliment the database system
 
-## done
+### done
 
-## maybe
+### maybe
