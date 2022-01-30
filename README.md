@@ -2,13 +2,17 @@
 
 ## Coding
 
+### pages
+
+All statically served to the clients, not sure if this is the best way to do it, may impliment server side page changing later but for now this works.
+
 ### casing
 
 FunctionsLikeThis
 variablesLikeThis
 files.likethis
 
-### End users
+## End users
 
 the end users will be people who are looking to buy lego bricks from many age ranges and also people who want to sell bricks. In this case the seller has been defined as one person: the store owner.
 
@@ -29,6 +33,10 @@ end users need to be able to:
 - design a home page
 
 - design a store page
+
+![Store design](img/LegoStore.png)
+
+Quick design in MSpaint, the idea is that when a brick is hovered over by the mouse, it gets larger and more information is displayed.
 
 - design a basket page
 
