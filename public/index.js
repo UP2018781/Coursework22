@@ -1,9 +1,18 @@
-const navbar = document.querySelector('.navbar');
+const bricks = document.querySelector('#bricks');
+const basket = document.querySelector('#basket');
 
 function LoadItemsPage() {
   document.location.href = 'items.html';
 }
 
-navbar.addEventListener('click', () => {
+function LoadBasketPage() {
+  document.location.href = 'basket.html';
+}
+
+bricks.addEventListener('click', () => {
   LoadItemsPage();
+});
+
+basket.addEventListener('click', () => {
+  LoadBasketPage();
 });
