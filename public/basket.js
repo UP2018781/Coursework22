@@ -1,9 +1,6 @@
+import { LoadMainPage } from './pageSwap.js';
 const back = document.querySelector('#home');
 
-function GetMainPage() {
-  document.location.href = 'index.html';
-}
-
 back.addEventListener('click', () => {
-  GetMainPage();
+  LoadMainPage();
 });
