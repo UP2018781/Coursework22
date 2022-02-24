@@ -1,13 +1,5 @@
-import { LoadItemsPage } from './pageSwap.js';
-import { LoadBasketPage } from './pageSwap.js';
+const navbar = document.querySelector('#navbar');
 
-const bricks = document.querySelector('#bricks');
-const basket = document.querySelector('#basket');
-
-bricks.addEventListener('click', () => {
-  LoadItemsPage();
-});
-
-basket.addEventListener('click', () => {
-  LoadBasketPage();
-});
+window.onload = () => {
+  console.log('page is fully loaded');
+};
