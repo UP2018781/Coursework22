@@ -21,6 +21,7 @@ the end users will be people who are looking to buy lego bricks from many age ra
 end users need to be able to:
 
 - easily navigate the website
+  - after doing a basic outline of the navigation bar, I got feedback which said the basket and contact us would be better as icons (basket and phone respectively)
 
 - see all the lego bricks available
 

@@ -1,5 +1,6 @@
 const navbar = document.querySelector('.navbar');
 
+// changing the webpage that we are currently on "basket", "sets" etc
 navbar.addEventListener('click', (e) => {
   if (e.target.id !== 'index' && e.target.id !== 'sets' && e.target.id !== 'bricks' && e.target.id !== 'basket') {
     window.location.hash = 'contact';

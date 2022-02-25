@@ -1,25 +1,25 @@
 :root{
     --main-color:#94594b;
     --bg:#121212;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-/* html{
-    font-size: 100%;
-    overflow-x: hidden;
-    scroll-padding-top: 9rem;
-    scroll-behavior: smooth;
+.navbar {
+  background-color: rgb(172, 167, 167);
+  color: white;
+  width: 50vw;
+  display: flex;
+  align-items: center;
+  font-size: 1.5vh;
+  gap: 1vw;
+  padding: 1vh;
+  list-style: none;
 }
 
-.body{
-    background: var(--bg);
+.navbar li:hover {
+  background-color: #16c45f;
+  transition: 0.2s;
 }
-
-.header{
-    background: var(--bg);
-    align-items: center;
-    justify-content: space-between;
-    padding: 1.5rem 7%;
-} */
 
 .brickBox {
     background-color: #7b7b7b;
