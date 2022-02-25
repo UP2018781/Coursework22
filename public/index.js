@@ -11,3 +11,11 @@ navbar.addEventListener('click', (e) => {
     highlightMe.style.backgroundColor = 'green';
   }
 });
+
+function createItemBox() {
+  const newBox = document.createElement('div');
+  newBox.classList.add('itemBox');
+  return newBox;
+}
+
+document.body.append(createItemBox());

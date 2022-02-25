@@ -38,7 +38,15 @@
 .brickBox:hover  {
     box-shadow: rgba(0, 0, 0, .15) 0 3px 9px 0;
     transform: translateY(-2px);
-  }
+}
+
+.itemBox {
+  background-color: rgb(172, 167, 167);
+  color: white;
+  width: '256px';
+  height: '256px';
+  margin-right: '16px';
+}
 
 .buyButton {
   background-color: #16c45f;
