@@ -9,8 +9,10 @@ All statically served to the clients, not sure if this is the best way to do it,
 ### casing
 
 FunctionsLikeThis
+
 variablesLikeThis
-files.likethis
+
+filesLike.this
 
 ## End users
 
@@ -35,10 +37,6 @@ end users need to be able to:
 
 - design a store page
 
-![Store design](img/LegoStore.png)
-
-Quick design in MSpaint, the idea is that when a brick is hovered over by the mouse, it gets larger and more information is displayed.
-
 - design a basket page
 
 - database
@@ -56,12 +54,19 @@ Quick design in MSpaint, the idea is that when a brick is hovered over by the mo
 
 ## breakdown
 
-- server
+- # server
 
   - endpoints
+    - /fetchBrick
+
+      fetch a specific bricks information from the database (searched by brick ID)
+    - /fetchSet
+
+      fetch a specific sets information from the database (searched by set ID)
+      also fetch any related bricks, to a certain extent, ID's and amount of bricks in a JSON
   - database integration
 
-- database
+- # database
   - user storage
     - username
     - previous orders
@@ -78,7 +83,21 @@ Quick design in MSpaint, the idea is that when a brick is hovered over by the mo
     - time
     - delivery status
 
-these database items should be everything required to run the current state of the website
-along with allowing for some future implimentations (such as delivery tracking)
+  these database items should be everything required to run the current state of the website
+  along with allowing for some future implimentations (such as delivery tracking)
 
-- client
+<!-- ERD NEEDED -->
+
+- # client
+  - ## home page
+  - ## basket
+  - ## bricks page
+
+    figure 1, the idea is that when a brick is hovered over by the mouse, it gets larger and more information is displayed.
+
+  - ## sets page
+
+    similar to figure 1, however instead of brick information being displayed, when a set is hovered over,
+    it shows the individual pieces (if available) and a link to more information about them.
+
+ ![figure 1](img/LegoStore.png)
