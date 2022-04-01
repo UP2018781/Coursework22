@@ -45,6 +45,40 @@ Quick design in MSpaint, the idea is that when a brick is hovered over by the mo
   - design a database system that is accessible for the server.
   - impliment the database system
 
+- short term goals
+  - create an algorithm that places a set number of items on the page, a 3x6 for example.
+  - make sure the items are placed in the correct place when the user resizes the page, when theyre on mobile and any other scenario.
+  - gridbox css?
+
 ### done
 
 ### maybe
+
+## breakdown
+
+- server
+
+  - endpoints
+  - database integration
+
+- database
+  - user storage
+    - username
+    - previous orders
+
+  - brick storage
+    - brick number
+    - colour
+    - amount in stock
+    - price
+
+  - orders
+    - items included
+    - date
+    - time
+    - delivery status
+
+these database items should be everything required to run the current state of the website
+along with allowing for some future implimentations (such as delivery tracking)
+
+- client
