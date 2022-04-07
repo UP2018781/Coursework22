@@ -67,9 +67,20 @@ end users need to be able to:
   - database integration
 
 - # database
+
+  - curated page
+    - setID's
+    - brickID's
+
   - user storage
     - username
     - previous orders
+    - basketID
+  
+  - baskets
+    - lastupdate
+    - brickIDs
+    - setIDs
 
   - brick storage
     - brick number
@@ -90,7 +101,17 @@ end users need to be able to:
 
 - # client
   - ## home page
+
+    the home page should have a curated mix of sets and bricks available. These can be changed at any time by the owner.
+    It should also have the links to all other pages clearly displayed.
+
   - ## basket
+
+    the basket should fetch whatever the user has got stored in their basket from the current shop and display it on the page where they can decide to purchase or not.
+
+    the basket database section should be written in such a way that the basket does not exist in the database forever,
+     instead keeping track of how long it has been active for.
+
   - ## bricks page
 
     figure 1, the idea is that when a brick is hovered over by the mouse, it gets larger and more information is displayed.
