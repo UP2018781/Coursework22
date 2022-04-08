@@ -2,15 +2,11 @@
     --main-color:#94594b;
     --bg:#121212;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background-color: #282828;
 }
 
 .navbar {
   background-color: rgb(172, 167, 167);
-  color: white;
-  width: 50vw;
-  display: flex;
-  align-items: center;
-  font-size: 1.5vh;
   gap: 1vw;
   padding: 1vh;
   list-style: none;
@@ -65,4 +61,19 @@
 .buyButton:hover  {
   box-shadow: rgba(0, 0, 0, .15) 0 3px 9px 0;
   transform: translateY(-2px);
+}
+
+.Block {
+  background-color: rgb(131, 0, 7);
+  color: bisque;
+  text-align: center;
+  border-color: bisque;
+  border-radius: 5px;
+  border-style: solid;
+}
+.Block:hover {
+  transform: scale(110%);
+  border-color: #000;
+  background-color: rgb(227, 0, 11);
+  transition: all 100ms;
 }

@@ -1,10 +1,10 @@
 const express = require('express');
-const path = require('path');
-const app = express();
+const server = express();
 const port = 8080;
+const path = require('path');
 
-app.use(express.static('public'));
+server.use(express.static(path.join(process.cwd() + '/src/public')));
 
-app.listen(port, () => {
-  console.log(`server listening on ${port}`);
+server.listen(port, () => {
+  console.log(`server listening on port ${port}`);
 });

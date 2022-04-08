@@ -4,7 +4,7 @@
   "description": "Lego Store",
   "scripts": {
     "setup": "npm i --prod",
-    "start": "node app.js",
+    "start": "node src/server/server.js",
     "devstart": "nodemon app.js"
   },
   "dependencies": {
