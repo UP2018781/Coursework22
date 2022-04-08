@@ -1,0 +1,68 @@
+:root{
+    --main-color:#94594b;
+    --bg:#121212;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.navbar {
+  background-color: rgb(172, 167, 167);
+  color: white;
+  width: 50vw;
+  display: flex;
+  align-items: center;
+  font-size: 1.5vh;
+  gap: 1vw;
+  padding: 1vh;
+  list-style: none;
+}
+
+.navbar li:hover {
+  background-color: #16c45f;
+  transition: 0.2s;
+}
+
+.brickBox {
+    background-color: #7b7b7b;
+    border: 1px solid #2b2b2b;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 400;
+    padding:1%;
+    text-align: left;
+    transform: translateY(0);
+    transition: transform 150ms, box-shadow 150ms;
+    touch-action: manipulation;
+}
+
+.brickBox:hover  {
+    box-shadow: rgba(0, 0, 0, .15) 0 3px 9px 0;
+    transform: translateY(-2px);
+}
+
+.itemBox {
+  background-color: rgb(172, 167, 167);
+  color: white;
+  width: '256px';
+  height: '256px';
+  margin-right: '16px';
+}
+
+.buyButton {
+  background-color: #16c45f;
+  border: 1px solid #16c45f;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 400;
+  padding:1%;
+  text-align: center;
+  transform: translateY(0);
+  transition: transform 150ms, box-shadow 150ms;
+  touch-action: manipulation;
+}
+
+.buyButton:hover  {
+  box-shadow: rgba(0, 0, 0, .15) 0 3px 9px 0;
+  transform: translateY(-2px);
+}
