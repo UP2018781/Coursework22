@@ -60,15 +60,15 @@ function create4BricksHorizontal(top) {
   }
 }
 
-function create16BricksBlock() {
-  create4BricksHorizontal('20%');
-  create4BricksHorizontal('70%');
-  create4BricksHorizontal('120%');
-  create4BricksHorizontal('170%');
+function create16BricksBlock(percent) {
+  create4BricksHorizontal(`${percent}%`);
+  create4BricksHorizontal(`${percent + 50}%`);
+  create4BricksHorizontal(`${percent + 100}%`);
+  create4BricksHorizontal(`${percent + 150}%`);
 }
 
 // initiate home page
-if (window.location.href === 'http://localhost:8080/index.html') {
+if (window.location.href === 'http://localhost:8080/index.html' || window.location.href === 'http://localhost:8080/') {
   createNavbar();
 }
 
@@ -80,7 +80,7 @@ if (window.location.href === 'http://localhost:8080/sets.html') {
 // initiate bricks page
 if (window.location.href === 'http://localhost:8080/bricks.html') {
   createNavbar();
-  create16BricksBlock();
+  create16BricksBlock(20);
 }
 
 // initiate basket page

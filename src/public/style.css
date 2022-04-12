@@ -11,11 +11,12 @@
   gap: 1vw;
   padding: 1vh;
   list-style: none;
+  transition: all 200ms;
 }
 
 .navbar li:hover {
-  background-color: #16c45f;
-  transition: 0.2s;
+  background-color: #128743;
+  transition: all 200ms;
 }
 
 .Block {
@@ -25,10 +26,11 @@
   border-color: bisque;
   border-radius: 5px;
   border-style: solid;
+  transition: all 200ms;
 }
 .Block:hover {
   transform: scale(110%);
   border-color: #000;
   background-color: rgb(227, 0, 11);
-  transition: all 100ms;
+  transition: all 200ms;
 }
