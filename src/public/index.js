@@ -15,7 +15,14 @@ function createBrickHolder(top, left) {
 function createLi(name, ID) {
   const listItem = document.createElement('li');
   listItem.textContent = name;
+  listItem.classList.add = 'Block';
   listItem.id = ID;
+  listItem.addEventListener('click', (e) => {
+    window.location.href = `${e.target.id}.html`;
+    const currentPage = `${e.target.id}`;
+    const highlightMe = document.querySelector(`#${currentPage}`);
+    highlightMe.style.backgroundColor = 'green';
+  });
   return listItem;
 }
 
@@ -24,7 +31,9 @@ function createNavbar() {
   const navbar = document.createElement('nav');
   const s = navbar.style;
   s.position = 'absolute';
+  s.left = '2.5%';
   s.width = '50%';
+  s.height = '2.5%';
   s.display = 'flex';
   s.alignItems = 'center';
   s.fontSize = '1.5vh';
@@ -32,17 +41,10 @@ function createNavbar() {
   navbar.classList.add('navbar');
 
   // create list elements
-  const home = createLi('home', 'index');
-  const sets = createLi('sets', 'sets');
-  const bricks = createLi('bricks', 'bricks');
-  const basket = createLi('basket', ' basket');
-
-  navbar.addEventListener('click', (e) => {
-    window.location.href = `${e.target.id}.html`;
-    const currentPage = `${e.target.id}`;
-    const highlightMe = document.querySelector(`#${currentPage}`);
-    highlightMe.style.backgroundColor = 'green';
-  });
+  const home = createLi('Home', 'index');
+  const sets = createLi('Sets', 'sets');
+  const bricks = createLi('Bricks', 'bricks');
+  const basket = createLi('Basket', ' basket');
 
   navbar.append(home);
   navbar.append(sets);

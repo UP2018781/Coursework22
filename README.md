@@ -43,11 +43,6 @@ end users need to be able to:
   - design a database system that is accessible for the server.
   - impliment the database system
 
-- short term goals
-  - create an algorithm that places a set number of items on the page, a 3x6 for example.
-  - make sure the items are placed in the correct place when the user resizes the page, when theyre on mobile and any other scenario.
-  - gridbox css?
-
 ### done
 
 ### maybe
