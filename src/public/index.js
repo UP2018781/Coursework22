@@ -1,3 +1,16 @@
+async function fetchBrickInfo(id) {
+  const response = await fetch(new URL('http://127.0.0.1:8080/query_brick'), {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      id: id,
+    }),
+  });
+  const BrickInfo = await response.headers;
+  console.log(await BrickInfo);
+  return await BrickInfo;
+}
+
 function createBrickHolder(top, left) {
   const brickHolder = document.createElement('div');
   const s = brickHolder.style;
@@ -87,3 +100,5 @@ if (window.location.href === 'http://localhost:8080/bricks.html') {
 if (window.location.href === 'http://localhost:8080/basket.html') {
   createNavbar();
 }
+
+fetchBrickInfo(123456);
