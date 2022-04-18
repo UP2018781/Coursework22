@@ -6,7 +6,7 @@ async function fetchBrickInfo(id) {
       id: id,
     }),
   });
-  const BrickInfo = await response.headers;
+  const BrickInfo = await response.json();
   console.log(await BrickInfo);
   return await BrickInfo;
 }
