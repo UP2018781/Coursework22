@@ -1,28 +1,37 @@
-async function fetchBrickInfo(id) {
-  const response = await fetch(new URL('http://127.0.0.1:8080/query_brick'), {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      id: id,
-    }),
-  });
-  const BrickInfo = await response.json();
-  console.log(await BrickInfo);
-  return await BrickInfo;
+import { fetchBrickInfo } from './requests.mjs';
+
+async function createBrickInfoDiv(id, colour, price) {
+  let brickInfo;
+  id ? brickInfo = await fetchBrickInfo(id) : null;
+
+  const brickInfoDiv = document.createElement('div');
+  const brickID = document.createElement('div').textContent = await brickInfo.id;
+  brickInfoDiv.append(await brickID);
+  return await brickInfoDiv;
 }
 
-function createBrickHolder(top, left) {
+async function createBrickHolder(id, colour, price) {
   const brickHolder = document.createElement('div');
   const s = brickHolder.style;
-  s.position = 'absolute';
   s.height = '20vw';
   s.width = '20vw';
-  s.top = top;
-  s.left = left;
-  brickHolder.textContent = 'Bricks';
   brickHolder.classList.add('Block');
   brickHolder.ID = '';
+
+  id ? brickHolder.append(await createBrickInfoDiv(id)) : null;
   return brickHolder;
+}
+
+function createHolder() {
+  const Holder = document.createElement('div');
+  const s = Holder.style;
+  s.position = '';
+  s.height = '';
+  s.width = '';
+  s.top = '';
+  s.left = '';
+  Holder.classList.add('Holder');
+  document.body.append(Holder);
 }
 
 function createLi(name, ID) {
@@ -67,38 +76,31 @@ function createNavbar() {
   document.body.append(navbar);
 }
 
-function create4BricksHorizontal(top) {
-  for (let i = 0; i < 4; i++) {
-    document.body.append(createBrickHolder(top, `${(i * 25) + 2.5}%`));
-  }
-}
-
-function create16BricksBlock(percent) {
-  create4BricksHorizontal(`${percent}%`);
-  create4BricksHorizontal(`${percent + 50}%`);
-  create4BricksHorizontal(`${percent + 100}%`);
-  create4BricksHorizontal(`${percent + 150}%`);
-}
-
 // initiate home page
 if (window.location.href === 'http://localhost:8080/index.html' || window.location.href === 'http://localhost:8080/') {
   createNavbar();
+  createHolder();
 }
 
 // initiate sets page
 if (window.location.href === 'http://localhost:8080/sets.html') {
   createNavbar();
+  createHolder();
 }
 
 // initiate bricks page
 if (window.location.href === 'http://localhost:8080/bricks.html') {
   createNavbar();
-  create16BricksBlock(20);
+  createHolder();
+  let i = 0;
+  while (i<20) {
+    document.querySelector(".Holder").append(await createBrickHolder( await fetchBrickInfo(i)));
+    i++;
+  }
 }
 
 // initiate basket page
 if (window.location.href === 'http://localhost:8080/basket.html') {
   createNavbar();
+  createHolder();
 }
-
-fetchBrickInfo(123456);

@@ -1,2 +1,3 @@
 extends: portsoc
 root: true
+indent: 2

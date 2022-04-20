@@ -1,0 +1,26 @@
+[
+    {
+        "id": "1",
+        "colour": "red",
+        "stockLevel": "10",
+        "price": "1.23",
+        "name": "Red 2x2",
+        "desc": "This is a description of the piece: red 2x2"
+    },
+    {
+        "id": "2",
+        "colour": "blue",
+        "stockLevel": "10",
+        "price": "1.23",
+        "name": "blue 2x4",
+        "desc": "This is a description of the piece: blue 2x4"
+    },
+    {
+        "id": "3",
+        "colour": "blue",
+        "stockLevel": "12",
+        "price": "1.25",
+        "name": "blue 2x2",
+        "desc": "This is a description of the piece: blue 2x2"
+    }
+]
