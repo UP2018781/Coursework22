@@ -1,4 +1,4 @@
-import { fetchBrickInfo } from './requests.mjs';
+import { fetchBrickInfo, fetchManyBricks } from './requests.mjs';
 
 /**
  * create a div with all the bricks info in
@@ -88,6 +88,9 @@ async function createBrickHolder(brickInfo) {
   return brickHolder;
 }
 
+/**
+ * removes all bricks on the page
+ */
 function removeAllBrickHolders() {
   let test = true
   while (test) {
@@ -98,18 +101,29 @@ function removeAllBrickHolders() {
       test = false;
     }
   }
-  console.log("clear page");
 }
 // can be better implemented when database is implemented
-async function addBrickHolders(fetchBy, amount) {
-  for (let i = 0; i < amount; i++) {
-    document.querySelector(".Holder").append(await createBrickHolder( await fetchBrickInfo(fetchBy)));
+/**
+ * 
+ * @param {obj} fetchBy 
+ * @param {number} amount blank for as many as in the array 
+ */
+async function addBrickHolders(brickArray, amount) {
+  if (amount) {
+    for (let i = 0; i < amount || i < brickArray.length ; i++) {
+      document.querySelector(".Holder").append(await createBrickHolder( await brickArray[i]));
+    }
+  } else {
+    for (let i = 0; i < brickArray.length; i++) {
+      document.querySelector('.Holder').append(await createBrickHolder( await brickArray[i]));
+    }
   }
 }
 
 function createFilter() {
   const filter = document.createElement('select');
   filter.id = 'filter';
+  filter.classList.add('Block');
 
   const filterText = document.createElement('div');
   filterText.textContent = 'Filter: ';
@@ -119,8 +133,8 @@ function createFilter() {
   filterText.style.color = 'bisque';
 
   const idOption = document.createElement('option');
-  idOption.value = 'ID';
-  idOption.textContent = 'ID'
+  idOption.value = 'all';
+  idOption.textContent = 'all'
 
   const colourOption = document.createElement('option');
   colourOption.value = 'colour';
@@ -131,19 +145,11 @@ function createFilter() {
 
   filter.addEventListener("change", async (e) => {
     removeAllBrickHolders();
-    let i = 0;
-    if (e.target.value == 'ID'){
-      const fetchBy = {
-        id: '1',
-      }
-      addBrickHolders(fetchBy, 10);
+    if (e.target.value == 'all'){
+      await addBrickHolders(await fetchManyBricks({ all: true}));
     }
     if (e.target.value == 'colour') {
-      console.log("colour");
-      const fetchBy = {
-        colour: 'blue',
-      }
-      addBrickHolders(fetchBy, 10);
+      await addBrickHolders(await fetchManyBricks({ colour: 'blue'}));
     }
   })
 
@@ -151,6 +157,61 @@ function createFilter() {
   document.body.append(filterText);
 }
 
+/**
+ * uses the search bar to search through all the bricks available
+ * @param {event} e 
+ */
+async function handleSearch(e) {
+  removeAllBrickHolders();
+  // setup vars
+  const arrayToPost = [];
+  const searchValue = e.target.value;
+  const brickArray = await fetchManyBricks({all: true});
+  // loop through all bricks and return only ones which match the criteria, appear in order of which criteria is most important, ID being highest.
+  for (let i = 0; i < await brickArray.length; i++) {
+    if (brickArray[i].id == searchValue) {
+      arrayToPost.push(brickArray[i]);
+    } else if (brickArray[i].colour == searchValue) {
+      arrayToPost.push(brickArray[i]);
+    } else if (brickArray[i].name == searchValue) {
+      arrayToPost.push(brickArray[i]);
+    } else if (brickArray[i].price == searchValue) {
+      arrayToPost.push(brickArray[i]);
+    } else if (brickArray[i].desc == searchValue) {
+      arrayToPost.push(brickArray[i]);
+    } else {
+      null;
+    }
+  }
+  if (arrayToPost.length === 0) {
+    addBrickHolders(brickArray);
+  } else {
+    addBrickHolders(arrayToPost);
+  }
+}
+
+/**
+ * creates the search bar
+ */
+function createSearch() {
+  const search = document.createElement('input');
+  const searchText = document.createElement("div");
+  search.id = 'searchBar';
+  search.classList.add('Block');
+  search.type = 'text';
+
+  searchText.style.position = 'absolute';
+  searchText.style.top = '7.5%';
+  searchText.style.left = '30%';
+  search.addEventListener('change', handleSearch)
+
+  searchText.append(search);
+  document.body.append(searchText);
+}
+
+/**
+ * creates a holder for flex displaying bricks
+ */
 function createHolder() {
   const Holder = document.createElement('div');
   const s = Holder.style;
@@ -217,12 +278,12 @@ if (window.location.href === 'http://localhost:8080/bricks.html') {
   createNavbar();
   createHolder();
   createFilter();
-  for (let i = 0; i < 20; i++) {
-    const fetchBy = {
-      id: i,
-    }
-    addBrickHolders(fetchBy, 1);
+  createSearch();
+  const fetchBy = {
+    all: true,
   }
+  const brickArray = await fetchManyBricks(fetchBy);
+  addBrickHolders(brickArray);
 }
 
 // initiate basket page

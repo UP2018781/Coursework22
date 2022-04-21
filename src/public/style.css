@@ -72,12 +72,3 @@
 #buyButton:hover {
   background-color: rgb(5, 129, 5);
 }
-
-#filter {
-  border: solid 1px;
-  border-color: bisque;
-  background-color: rgb(131, 0, 7);
-}
-#filter:hover {
-  background-color: rgb(227, 0, 11);
-}

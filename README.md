@@ -54,11 +54,11 @@ end users need to be able to:
   - endpoints
     - /fetchBrick
 
-      fetch a specific bricks information from the database (searched by brick ID)
+      fetch a specific bricks information from the database searchable by ID, Price or Colour.
     - /fetchSet
 
-      fetch a specific sets information from the database (searched by set ID)
-      also fetch any related bricks, to a certain extent, ID's and amount of bricks in a JSON
+      fetch a specific sets information from the database
+      also fetch any related bricks, to a certain extent, ID's and amount of bricks in an object
   - database integration
 
 - # database
@@ -116,4 +116,19 @@ end users need to be able to:
     similar to figure 1, however instead of brick information being displayed, when a set is hovered over,
     it shows the individual pieces (if available) and a link to more information about them.
 
- ![figure 1](img/LegoStore.png)
+  ![figure 1](img/LegoStore.png)
+  ![progress 1](./img/brickspage.png)
+  ![progress 2](./img/searchBar1.png)
+  ![progress 2](./img/searchBar2.png)
+
+    ### progress 1
+    
+    completed some functionality.
+
+    very basic in design and functionality. Client fetches data from the server (data stored in a json for now) and displays in these item holders. Filter has an inadequate event listener that can update the page. Navbar works, but can be improved.
+
+    ### progress 2
+
+    added search bar
+
+    got some advanced functionality. Can search any aspect of the brick. Can be improved, for example doesn't search for words in description just compares search value. <- will test this with a larger sample of bricks to check efficiency.
