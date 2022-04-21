@@ -34,10 +34,16 @@ server.listen(port, () => {
 
 async function queryBrick(req, res) {
 
-  let brickInfo = {id: 'notfound'};
-  for (let i = 0; i < bricks.length; i++) {
-    console.log(req.body.id);
-    bricks[i].id == req.body.id ? brickInfo = bricks[i] : null;
+  let brickInfo = {};
+  if (req.body.id) {
+    for (let i = 0; i < bricks.length; i++) {
+      bricks[i].id == req.body.id ? brickInfo = bricks[i] : null;
+    }
+  }
+  if (req.body.colour) {
+    for (let i = 0; i < bricks.length; i++) {
+      bricks[i].colour == req.body.colour ? brickInfo = bricks[i] : null;
+    }
   }
 
   res.status(200).json({

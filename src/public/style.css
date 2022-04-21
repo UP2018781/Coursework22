@@ -27,7 +27,7 @@
   align-content: space-around;
   gap: 5vh;
   position: absolute;
-  top: 10vh;
+  top: 15vh;
 }
 
 .Block {
@@ -44,4 +44,40 @@
   border-color: #000;
   background-color: rgb(227, 0, 11);
   transition: all 200ms;
+}
+
+#brickInfo{
+  display: flex;
+  font-size: 10px;
+  min-height: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#brickID {
+  color: yellow;
+}
+
+#buyButton {
+  background-color: lime;
+  font-size: 20px;
+  border: none;
+  border-top-left-radius: 5px;
+  position: relative;
+  max-width: 35%;
+  max-height: 35%;
+  left: 65%;
+  transition: all 200ms;
+} 
+#buyButton:hover {
+  background-color: rgb(5, 129, 5);
+}
+
+#filter {
+  border: solid 1px;
+  border-color: bisque;
+  background-color: rgb(131, 0, 7);
+}
+#filter:hover {
+  background-color: rgb(227, 0, 11);
 }
