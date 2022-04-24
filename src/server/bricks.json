@@ -22,5 +22,13 @@
         "price": "1.25",
         "name": "blue 2x2",
         "desc": "This is a description of the piece: blue 2x2"
+    },
+    {
+        "id": "5",
+        "colour": "yellow",
+        "stockLevel": "100",
+        "price": "5.50",
+        "name": "yellow 8x2",
+        "desc": "long ass piece of lego"
     }
 ]

@@ -104,8 +104,7 @@ end users need to be able to:
 
     the basket should fetch whatever the user has got stored in their basket from the current shop and display it on the page where they can decide to purchase or not.
 
-    the basket database section should be written in such a way that the basket does not exist in the database forever,
-     instead keeping track of how long it has been active for.
+    the basket should be kept in localstorage
 
   - ## bricks page
 

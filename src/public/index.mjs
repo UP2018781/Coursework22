@@ -1,5 +1,4 @@
 import { fetchBrickInfo, fetchManyBricks } from './requests.mjs';
-
 /**
  * create a div with all the bricks info in
  * @async
@@ -18,20 +17,121 @@ async function createBrickInfoDiv(brickInfo) {
   brickPrice.id = "brickPrice";
   let brickName = document.createElement('div');
   brickName.id = "brickName";
+  let brickDesc = document.createElement("div");
+  brickDesc.id = "brickDesc";
 
   // check if info exists then add content to divs
   await brickInfo.id ? brickID.textContent = `ID: ${brickInfo.id}` : brickID.textContent = 'ID not found';
   await brickInfo.colour ? brickColour.textContent = `colour: ${brickInfo.colour}` : brickColour.textContent = 'colour not found';
   await brickInfo.name ? brickName.textContent = brickInfo.name :  brickName.textContent = 'unknown brick';
+  await brickInfo.desc ? brickDesc.textContent = brickInfo.desc : brickDesc.textContent = `no description`;
+
   // add all divs to brickInfoDiv and return
   brickInfoDiv.append(brickID);
   brickInfoDiv.append(brickName);
   brickInfoDiv.append(brickColour);
   brickInfoDiv.append(brickPrice);
+  brickInfoDiv.append(brickDesc);
   brickInfoDiv.append(await createBuyButton(brickInfo));
+  await brickInfoDiv.append(createRemoveButton(brickInfo));
   return await brickInfoDiv;
 }
+/**
+ * takes an object and adds it to the basket in localstorage
+ * @param {obj} item 
+ */
+function addBasket(item, amount) {
+  let basket = window.localStorage.getItem("basket");
+  basket == null ? basket = [] : basket = JSON.parse(basket);
+  let contains = false;
 
+  // if the array contains the item already, add one to the count and change 'contains' to true
+  for (let i = 0; i < basket.length; i++) {
+    if (basket[i].id == item.id) {
+      contains = true;
+      amount == undefined ? basket[i].count = basket[i].count + 1 : basket[i].count = basket[i].count + amount;
+    }
+  }
+
+  // if the array doesnt contain the item, push the item
+  amount == undefined ? item.count = 1 : item.count = parseInt(amount);
+  contains == false ? basket.push(item) : null;
+  
+  // write back to localstorage
+  basket = JSON.stringify(basket);
+  window.localStorage.setItem("basket", basket);
+}
+
+/**
+ * takes an object and searches the basket for how many of that item there are
+ * @param {obj} item 
+ * @returns {number} count
+ */
+function queryBasket(item) {
+  let basket = window.localStorage.getItem("basket");
+  basket == null ? basket = [] : basket = JSON.parse(basket);
+  let count = 0;
+
+  for(let i = 0; i < basket.length; i++) {
+    basket[i].id == item.id ? count = basket[i].count : null;
+  }
+
+  return(count);
+}
+
+/**
+ * takes an object and removes it from the basket in localstorage
+ * @param {obj} item 
+ */
+function removeFromBasket(item) {
+  let basket = window.localStorage.getItem("basket");
+  basket == null ? basket = [] : basket = JSON.parse(basket);
+  
+  for (let i = 0; i < basket.length; i++) {
+    if (parseInt(basket[i].id) == item.id) {
+      basket.splice(i,1);
+      console.log(basket);
+      console.log("item removed");
+    }
+  }
+  basket = JSON.stringify(basket);
+  window.localStorage.setItem("basket", basket);
+}
+
+/**
+ * creates a remove button that removes the current item from the basket (localstorage)
+ * should be appended to the BrickInfoDiv
+ * @param {obj} item 
+ * @return {HTMLElement} button
+ */
+function createRemoveButton(item) {
+  const rButton = document.createElement("button");
+  rButton.id = "removeButton";
+  rButton.textContent = queryBasket(item);
+
+  rButton.addEventListener("click", removeButtonClicked);
+  return rButton;
+}
+
+/**
+ * takes the parent element of the parent element of the event and finds the item ID based off that (ew).
+ * removes the item with that ID from the basket (localstorage). 
+ * also updates number
+ * @param {Event} e 
+ */
+function removeButtonClicked(e) {
+  // get current item
+  let currentID = "";
+  const textID = e.target.parentElement.parentElement.querySelector('#brickID').textContent;
+    // search text content of ID elem for the number
+  for (const i in textID) {
+    if (!isNaN(textID[i])) {
+      currentID = currentID.concat(textID[i]);
+    }
+  }
+  removeFromBasket({id: currentID});
+  e.target.textContent = queryBasket({id:currentID});
+}
 /**
  * creates buy button
  * @param {obj} brickInfo 
@@ -54,6 +154,7 @@ async function buyButtonClicked(e) {
   // get current item
   let currentID = "";
   const textID = e.target.parentElement.parentElement.querySelector('#brickID').textContent;
+  const currentRemove = e.target.parentElement.parentElement.querySelector("#removeButton");
     // search text content of ID elem for the number
   for (const i in textID) {
     if (!isNaN(textID[i])) {
@@ -66,8 +167,12 @@ async function buyButtonClicked(e) {
   }
   // fetch item info from server (so we're sure the data is correct, and up to date, for example stock levels)
   const current = await fetchBrickInfo(fetchBy);
+
   // add to basket
-  current.stockLevel > 0 ? console.log(current) : alert('out of stock!');
+  current.stockLevel > 0 ? addBasket(current) : alert('out of stock!');
+
+  currentRemove.textContent = parseInt(currentRemove.textContent) + 1;
+
 }
 
 /**
@@ -226,7 +331,7 @@ function createLi(name, ID) {
   listItem.id = ID;
   listItem.addEventListener('click', (e) => {
     window.location.href = `${e.target.id}.html`;
-    const currentPage = `${e.target.id}`;
+    // const currentPage = `${e.target.id}`;
     // const highlightMe = document.querySelector(`#${currentPage}`);
     // highlightMe.style.backgroundColor = 'green';
   });
@@ -261,6 +366,64 @@ function createNavbar() {
   document.body.append(navbar);
 }
 
+function createBasketInfoDiv(brickInfo) {
+  // create divs
+  const brickInfoDiv = document.createElement('div');
+  brickInfoDiv.id = 'basketInfo';
+  let brickID = document.createElement('div');
+  brickID.id = "brickID";
+  let brickColour = document.createElement('div');
+  brickColour.id = "brickColour";
+  let brickPrice = document.createElement('div');
+  brickPrice.id = "brickPrice";
+  let brickName = document.createElement('div');
+  brickName.id = "brickName";
+  let brickDesc = document.createElement("div");
+  brickDesc.id = "brickDesc";
+  let brickCount = document.createElement("div");
+  brickCount.id = 'brickCount'
+  let brickPhoto = document.createElement("img");
+  brickPhoto.id = 'brickPhoto';
+  brickPhoto.style.backgroundColor = brickInfo.colour;
+
+  // check if info exists then add content to divs
+  brickInfo.id ? brickID.textContent = `ID: ${brickInfo.id}` : brickID.textContent = 'ID not found';
+  brickInfo.colour ? brickColour.textContent = `colour: ${brickInfo.colour}` : brickColour.textContent = 'colour not found';
+  brickInfo.name ? brickName.textContent = brickInfo.name :  brickName.textContent = 'unknown brick';
+  brickInfo.desc ? brickDesc.textContent = brickInfo.desc : brickDesc.textContent = `no description`;
+  brickInfo.count ? brickCount.textContent = brickInfo.count : brickCount.textContent = '1';
+  brickInfo.price ? brickPrice.textContent = `$${brickInfo.price}` : brickPrice.textContent = 'unknown price';
+  // add all divs to brickInfoDiv and return
+  brickInfoDiv.append(brickID);
+  brickInfoDiv.append(brickName);
+  brickInfoDiv.append(brickColour);
+  brickInfoDiv.append(brickPrice);
+  brickInfoDiv.append(brickDesc);
+  brickInfoDiv.append(brickCount);  
+  brickInfoDiv.append(brickPhoto);
+  brickInfoDiv.append(createRemoveButton(brickInfo));
+  return brickInfoDiv;
+}
+
+function createBasketItem(brickInfo) {
+  const basketItemHolder = document.createElement("div");
+  basketItemHolder.append( createBasketInfoDiv(brickInfo) );
+  basketItemHolder.classList.add("BasketBlock");
+  basketItemHolder.style.height = "25vh";
+  basketItemHolder.style.width = "90vw";
+  const s = basketItemHolder.style;
+  const holder = document.querySelector(".Holder");
+  holder.append(basketItemHolder);
+
+}
+
+function initiateBasket() {
+  let basket = window.localStorage.getItem("basket");
+  basket = JSON.parse(basket);
+  for (let i = 0; i < basket.length; i++) {
+    createBasketItem(basket[i]);
+  }
+}
 // initiate home page
 if (window.location.href === 'http://localhost:8080/index.html' || window.location.href === 'http://localhost:8080/') {
   createNavbar();
@@ -290,4 +453,5 @@ if (window.location.href === 'http://localhost:8080/bricks.html') {
 if (window.location.href === 'http://localhost:8080/basket.html') {
   createNavbar();
   createHolder();
+  initiateBasket();
 }
