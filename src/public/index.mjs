@@ -1,4 +1,6 @@
 import { fetchBrickInfo, fetchManyBricks } from './requests.mjs';
+import * as basket from './basket.mjs';
+const allowedColours = ['red','blue','green'];
 /**
  * create a div with all the bricks info in
  * @async
@@ -9,24 +11,24 @@ async function createBrickInfoDiv(brickInfo) {
   // create divs
   const brickInfoDiv = document.createElement('div');
   brickInfoDiv.id = 'brickInfo';
-  let brickID = document.createElement('div');
+  let brickID = document.createElement('span');
   brickID.id = "brickID";
-  let brickColour = document.createElement('div');
+  let brickColour = document.createElement('span');
   brickColour.id = "brickColour";
-  let brickPrice = document.createElement('div');
+  let brickPrice = document.createElement('span');
   brickPrice.id = "brickPrice";
-  let brickName = document.createElement('div');
+  let brickName = document.createElement('span');
   brickName.id = "brickName";
-  let brickDesc = document.createElement("div");
+  let brickDesc = document.createElement("span");
   brickDesc.id = "brickDesc";
 
-  // check if info exists then add content to divs
+  // check if info exists then add content to spans
   await brickInfo.id ? brickID.textContent = `ID: ${brickInfo.id}` : brickID.textContent = 'ID not found';
   await brickInfo.colour ? brickColour.textContent = `colour: ${brickInfo.colour}` : brickColour.textContent = 'colour not found';
   await brickInfo.name ? brickName.textContent = brickInfo.name :  brickName.textContent = 'unknown brick';
   await brickInfo.desc ? brickDesc.textContent = brickInfo.desc : brickDesc.textContent = `no description`;
 
-  // add all divs to brickInfoDiv and return
+  // add all spans to brickInfoDiv and return
   brickInfoDiv.append(brickID);
   brickInfoDiv.append(brickName);
   brickInfoDiv.append(brickColour);
@@ -104,12 +106,20 @@ function removeFromBasket(item) {
  * @param {obj} item 
  * @return {HTMLElement} button
  */
-function createRemoveButton(item) {
-  const rButton = document.createElement("button");
-  rButton.id = "removeButton";
-  rButton.textContent = queryBasket(item);
+export function createRemoveButton(item) {
+  const binIcon = document.createElement("img");
+  binIcon.src = './img/bin.png';
+  binIcon.id = 'binButton';
+  binIcon.addEventListener("click", removeButtonClicked);
 
-  rButton.addEventListener("click", removeButtonClicked);
+  const basketAmount = document.createElement("div");
+  basketAmount.textContent = queryBasket(item);
+  basketAmount.id = 'basketAmount';
+  const rButton = document.createElement("div");
+  rButton.id = "remove";
+  rButton.append(basketAmount);
+  rButton.prepend(binIcon);
+
   return rButton;
 }
 
@@ -130,7 +140,8 @@ function removeButtonClicked(e) {
     }
   }
   removeFromBasket({id: currentID});
-  e.target.textContent = queryBasket({id:currentID});
+  const text = e.target.parentElement.querySelector('#basketAmount');
+  text.innerText = queryBasket({id:currentID});
 }
 /**
  * creates buy button
@@ -154,7 +165,7 @@ async function buyButtonClicked(e) {
   // get current item
   let currentID = "";
   const textID = e.target.parentElement.parentElement.querySelector('#brickID').textContent;
-  const currentRemove = e.target.parentElement.parentElement.querySelector("#removeButton");
+  const currentRemove = e.target.parentElement.parentElement.querySelector("#basketAmount");
     // search text content of ID elem for the number
   for (const i in textID) {
     if (!isNaN(textID[i])) {
@@ -179,11 +190,20 @@ async function buyButtonClicked(e) {
  * creates and formats brick holder
  * @async
  * @param {JSON} brickInfo 
- * @returns entire brick holder Div
+ * @returns entire brick holder div
  */
 async function createBrickHolder(brickInfo) {
   const brickHolder = document.createElement('div');
   const s = brickHolder.style;
+  //if the colour of the brick is allowd, change the background colour to be the same as the brick :)
+  let allowed = false;
+  for (let i = 0; i < allowedColours.length; i++) {
+    if (brickInfo.colour == allowedColours[i]){
+      allowed = true;
+    }
+  }
+  allowed == true ? s.backgroundColor = brickInfo.colour : null;
+
   s.height = '20vw';
   s.width = '20vw';
   brickHolder.classList.add('Block');
@@ -225,42 +245,42 @@ async function addBrickHolders(brickArray, amount) {
   }
 }
 
-function createFilter() {
-  const filter = document.createElement('select');
-  filter.id = 'filter';
-  filter.classList.add('Block');
+// function createFilter() {
+//   const filter = document.createElement('select');
+//   filter.id = 'filter';
+//   filter.classList.add('Block');
 
-  const filterText = document.createElement('div');
-  filterText.textContent = 'Filter: ';
-  filterText.style.position = 'absolute';
-  filterText.style.top = '7.5%';
-  filterText.style.left = '5%';
-  filterText.style.color = 'bisque';
+//   const filterText = document.createElement('div');
+//   filterText.textContent = 'Filter: ';
+//   filterText.style.position = 'absolute';
+//   filterText.style.top = '7.5%';
+//   filterText.style.left = '5%';
+//   filterText.style.color = 'bisque';
 
-  const idOption = document.createElement('option');
-  idOption.value = 'all';
-  idOption.textContent = 'all'
+//   const idOption = document.createElement('option');
+//   idOption.value = 'all';
+//   idOption.textContent = 'all'
 
-  const colourOption = document.createElement('option');
-  colourOption.value = 'colour';
-  colourOption.textContent = 'colour';
+//   const colourOption = document.createElement('option');
+//   colourOption.value = 'colour';
+//   colourOption.textContent = 'colour';
 
-  filter.append(idOption);
-  filter.append(colourOption);
+//   filter.append(idOption);
+//   filter.append(colourOption);
 
-  filter.addEventListener("change", async (e) => {
-    removeAllBrickHolders();
-    if (e.target.value == 'all'){
-      await addBrickHolders(await fetchManyBricks({ all: true}));
-    }
-    if (e.target.value == 'colour') {
-      await addBrickHolders(await fetchManyBricks({ colour: 'blue'}));
-    }
-  })
+//   filter.addEventListener("change", async (e) => {
+//     removeAllBrickHolders();
+//     if (e.target.value == 'all'){
+//       await addBrickHolders(await fetchManyBricks({ all: true}));
+//     }
+//     if (e.target.value == 'colour') {
+//       await addBrickHolders(await fetchManyBricks({ colour: 'blue'}));
+//     }
+//   })
 
-  filterText.append(filter);
-  document.body.append(filterText);
-}
+//   filterText.append(filter);
+//   document.body.append(filterText);
+// }
 
 /**
  * uses the search bar to search through all the bricks available
@@ -304,10 +324,11 @@ function createSearch() {
   search.id = 'searchBar';
   search.classList.add('Block');
   search.type = 'text';
+  search.placeholder = 'search';
 
   searchText.style.position = 'absolute';
-  searchText.style.top = '7.5%';
-  searchText.style.left = '30%';
+  searchText.style.top = '9%';
+  searchText.style.left = '5%';
   search.addEventListener('change', handleSearch)
 
   searchText.append(search);
@@ -341,22 +362,13 @@ function createLi(name, ID) {
 function createNavbar() {
   // create navbar
   const navbar = document.createElement('nav');
-  const s = navbar.style;
-  s.position = 'absolute';
-  s.left = '2.5%';
-  s.width = '50%';
-  s.height = '2.5%';
-  s.display = 'flex';
-  s.alignItems = 'center';
-  s.fontSize = '1.5vh';
-  s.color = 'bisque';
   navbar.classList.add('navbar');
 
   // create list elements
   const home = createLi('Home', 'index');
   const sets = createLi('Sets', 'sets');
   const bricks = createLi('Bricks', 'bricks');
-  const basket = createLi('Basket', ' basket');
+  const basket = createLi('Basket', 'basket');
 
   navbar.append(home);
   navbar.append(sets);
@@ -366,64 +378,6 @@ function createNavbar() {
   document.body.append(navbar);
 }
 
-function createBasketInfoDiv(brickInfo) {
-  // create divs
-  const brickInfoDiv = document.createElement('div');
-  brickInfoDiv.id = 'basketInfo';
-  let brickID = document.createElement('div');
-  brickID.id = "brickID";
-  let brickColour = document.createElement('div');
-  brickColour.id = "brickColour";
-  let brickPrice = document.createElement('div');
-  brickPrice.id = "brickPrice";
-  let brickName = document.createElement('div');
-  brickName.id = "brickName";
-  let brickDesc = document.createElement("div");
-  brickDesc.id = "brickDesc";
-  let brickCount = document.createElement("div");
-  brickCount.id = 'brickCount'
-  let brickPhoto = document.createElement("img");
-  brickPhoto.id = 'brickPhoto';
-  brickPhoto.style.backgroundColor = brickInfo.colour;
-
-  // check if info exists then add content to divs
-  brickInfo.id ? brickID.textContent = `ID: ${brickInfo.id}` : brickID.textContent = 'ID not found';
-  brickInfo.colour ? brickColour.textContent = `colour: ${brickInfo.colour}` : brickColour.textContent = 'colour not found';
-  brickInfo.name ? brickName.textContent = brickInfo.name :  brickName.textContent = 'unknown brick';
-  brickInfo.desc ? brickDesc.textContent = brickInfo.desc : brickDesc.textContent = `no description`;
-  brickInfo.count ? brickCount.textContent = brickInfo.count : brickCount.textContent = '1';
-  brickInfo.price ? brickPrice.textContent = `$${brickInfo.price}` : brickPrice.textContent = 'unknown price';
-  // add all divs to brickInfoDiv and return
-  brickInfoDiv.append(brickID);
-  brickInfoDiv.append(brickName);
-  brickInfoDiv.append(brickColour);
-  brickInfoDiv.append(brickPrice);
-  brickInfoDiv.append(brickDesc);
-  brickInfoDiv.append(brickCount);  
-  brickInfoDiv.append(brickPhoto);
-  brickInfoDiv.append(createRemoveButton(brickInfo));
-  return brickInfoDiv;
-}
-
-function createBasketItem(brickInfo) {
-  const basketItemHolder = document.createElement("div");
-  basketItemHolder.append( createBasketInfoDiv(brickInfo) );
-  basketItemHolder.classList.add("BasketBlock");
-  basketItemHolder.style.height = "25vh";
-  basketItemHolder.style.width = "90vw";
-  const s = basketItemHolder.style;
-  const holder = document.querySelector(".Holder");
-  holder.append(basketItemHolder);
-
-}
-
-function initiateBasket() {
-  let basket = window.localStorage.getItem("basket");
-  basket = JSON.parse(basket);
-  for (let i = 0; i < basket.length; i++) {
-    createBasketItem(basket[i]);
-  }
-}
 // initiate home page
 if (window.location.href === 'http://localhost:8080/index.html' || window.location.href === 'http://localhost:8080/') {
   createNavbar();
@@ -440,7 +394,7 @@ if (window.location.href === 'http://localhost:8080/sets.html') {
 if (window.location.href === 'http://localhost:8080/bricks.html') {
   createNavbar();
   createHolder();
-  createFilter();
+  // createFilter();
   createSearch();
   const fetchBy = {
     all: true,
@@ -453,5 +407,5 @@ if (window.location.href === 'http://localhost:8080/bricks.html') {
 if (window.location.href === 'http://localhost:8080/basket.html') {
   createNavbar();
   createHolder();
-  initiateBasket();
+  basket.initiateBasket();
 }

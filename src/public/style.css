@@ -1,24 +1,51 @@
 :root{
-    --main-color:#94594b;
-    --bg:#121212;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     background-color: #282828;
 }
 
 .navbar {
+  position: absolute;
+  width: 50%;
+  height: 4%;
+  left: 5%;
+  color: bisque;
+  display: grid;
+  grid-template-columns: [margin1] 5% [col1] 18% [col2] 18% [col3] 18% [col4] 18% [col5] 18% [margin2] 5%;
+  grid-template-rows: [row1] 100%;
   background-color: rgb(172, 167, 167);
   border-radius: 5px;
-  gap: 1vw;
   padding: 1vh;
   list-style: none;
   transition: all 200ms;
 }
-
+.navbar li {
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  border-radius: 5px;
+}
 .navbar li:hover {
-  background-color: #128743;
+  border: solid darkslategrey 3px;
   transition: all 200ms;
 }
+.navbar #index {
+  grid-column: col1;
+  grid-row: row1;
+}
+.navbar #bricks {
+  grid-column: col2;
+  grid-row: row1;
+}
+.navbar #sets {
+  grid-column: col3;
+  grid-row: row1;
+}
+.navbar #basket {
+  grid-column: col4;
+  grid-row: row1;
+}
 
+/* bricks */
 .Holder {
   display: flex;
   flex-direction: row;
@@ -28,29 +55,92 @@
   gap: 5vh;
   position: absolute;
   top: 15vh;
+  left: 5%;
 }
-
 .Block {
-  background-color: rgb(131, 0, 7);
+  background-color: rgb(172, 167, 167);
   color: yellow;
-  text-align: center;
-  border-color: yellow;
+  border: none;
+  font-size: 110%;
   border-radius: 5px;
-  border-style: solid;
+  text-align: center;
   transition: all 200ms;
 }
 .Block:hover {
   transform: scale(110%);
   border-color: rgb(227, 0, 11);
-  background-color: rgb(227, 0, 11);
+  background-color: darkslategrey !important;
   transition: all 200ms;
 }
 
+/* elements inside the brick holders*/
+#brickInfo{
+  display: grid;
+  grid-template-columns: [margin1] 2.5% [col1] 47.5% [col2] 47.5% [margin2] 2.5%;
+  grid-template-rows: [margin1] 2.5% [row1] 10% [row2] 10% [row3] 10% [row4] 45% [row5] 20% [margin2] 2.5%;
+  font-size: 10px;
+  min-height: 100%;
+}
+#brickInfo #brickID {
+  grid-row: row1;
+  grid-column: col1;
+}
+#brickInfo #brickColour {
+  grid-row: row2;
+  grid-column: col1;
+}
+#brickInfo #brickName {
+  grid-row: row1;
+  grid-column: col2;
+}
+
+#buyButton {
+  background-color: lime;
+  font-size: 20px;
+  border: none;
+  transition: all 200ms;
+  grid-column-start: col2;
+  grid-row-start: row5;
+} 
+#buyButton:hover {
+  background-color: rgb(5, 129, 5);
+}
+#brickInfo #remove {
+  display: grid;
+  background-color: yellow;
+  font-size: 20px;
+  border: none;
+  grid-template-columns: [col1] 50% [col2] 50%;
+  grid-template-rows: [row1] 100%;
+  grid-column-start: col1;
+  grid-row-start: row5;
+}
+#brickInfo #remove #binButton {
+  grid-column-start: col1;
+  height: 100%;
+  width: 100%;
+  transition: all 100ms;
+  background-color: red;
+}
+#brickInfo #remove #binButton:hover {
+  background-color: rgb(114, 0, 0);
+}
+#basketAmount {
+  grid-column-start: col2;
+  color: black;
+}
+#brickDesc {
+  grid-column: col2;
+  grid-row: row2;
+}
+
+
+
+/*basket*/
 .BasketBlock {
   background-color: rgb(227, 0, 11);
   color: yellow;
   text-align: center;
-  border-color: yellow;
   border-radius: 5px;
   border-style: solid;
   transition: all 200ms;
@@ -58,76 +148,37 @@
 .BasketBlock:hover {
   border-color: rgb(227, 0, 11);
 }
-
-#brickInfo{
-  display: flex;
-  font-size: 10px;
-  min-height: 100%;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-#brickID {
-  color: yellow;
-}
-
-#buyButton {
-  background-color: lime;
-  font-size: 20px;
-  border: none;
-  border-top-left-radius: 5px;
-  position: relative;
-  max-width: 35%;
-  max-height: 35%;
-  left: 65%;
-  transition: all 200ms;
-} 
-#buyButton:hover {
-  background-color: rgb(5, 129, 5);
-}
-#removeButton {
-  background-color: yellow;
-  font-size: 20px;
-  border: none;
-  position: relative;
-  max-width: 35%;
-  max-height: 35%;
-  left: 65%;
-}
-#removeButton:hover {
-  background-color: rgb(184, 184, 0);
-}
-#brickPhoto {
-  height: 50px;
-  width: 50px;
-  order: 2;
-}
-
-#basketInfo #brickID,
-#basketInfo #brickPhoto,
-#basketInfo #brickName,
-#basketInfo #brickColour {
-  text-align: left;
-  min-height: 50px;
-  position: relative;
-  max-width: 50%;
-  order: 1;
-}
-
-#basketInfo #brickDesc, 
-#basketInfo #brickCount,
-#basketInfo #brickPrice {
-  text-align: left;
-  position: relative;
-  max-width: 50%;
-  min-height: 50px;
-  order: 3;
-}
 #basketInfo {
-  display: flex;
-  flex-flow: column wrap;
-  justify-content: space-around;
-  column-gap: 25%;
-  max-height: 100%;
+  display: grid;
+  height: 100%;
+  grid-template-columns: [margin1] 5% [col1] 30% [col2] 30% [col3] 15% [col4] 15% [margin2] 5%;
+  grid-template-rows: [margin1] 5% [row1] 20% [row2] 20% [row3] 20% [row4] 20% [row5] 15% [margin2] 5%;
 }
-
+#basketInfo #remove {
+  background-color: yellow;
+  grid-column: col4;
+  grid-row: row4;
+  display:grid;
+  height: 100%;
+  grid-template-columns: [col1] 50% [col2] 50%;
+  grid-template-rows: [row1] 100%;
+}
+#basketInfo #remove #binButton {
+  background-color: red;
+  border: solid black 1px;
+  grid-column: col1;
+  height: 100%;
+}
+#basketInfo #remove #binButton:hover {
+  background-color: rgb(145, 0, 0);
+}
+#basketInfo #brickPhoto {
+  height: 100%;
+  width: 50%;
+  grid-column: col1;
+  grid-row: row2 / row5;
+}
+#basketInfo #brickPrice {
+  grid-column: col3;
+  grid-row: row4;
+}
