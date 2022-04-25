@@ -14,6 +14,16 @@ try {
 } catch {
   console.error("bricks cannot be fetched");
 }
+let sets;
+try {
+  fs.readFile('./src/server/sets.json', 'utf8', (err, data) => {
+    err ? console.warn(err) : null;
+    sets = JSON.parse(data);
+    data ? console.log("sets fetched") : null
+  });
+} catch {
+  console.error("sets cannot be fetched");
+}
 
 const server = express();
 const port = 8080;
