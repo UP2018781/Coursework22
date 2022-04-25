@@ -1,6 +1,14 @@
 import { fetchBrickInfo, fetchManyBricks } from './requests.mjs';
 import * as basket from './basket.mjs';
 const allowedColours = ['red','blue','green'];
+
+function createLogo() {
+  const logo = document.createElement("img");
+  logo.src = './img/logo.gif';
+  logo.id = 'logo';
+  document.body.append(logo);
+}
+
 /**
  * create a div with all the bricks info in
  * @async
@@ -325,10 +333,7 @@ function createSearch() {
   search.classList.add('Block');
   search.type = 'text';
   search.placeholder = 'search';
-
-  searchText.style.position = 'absolute';
-  searchText.style.top = '9%';
-  searchText.style.left = '5%';
+  searchText.id = 'searchBar';
   search.addEventListener('change', handleSearch)
 
   searchText.append(search);
@@ -379,19 +384,22 @@ function createNavbar() {
 }
 
 // initiate home page
-if (window.location.href === 'http://localhost:8080/index.html' || window.location.href === 'http://localhost:8080/') {
+if (window.location.href == 'http://localhost:8080/index.html' || window.location.href === 'http://localhost:8080/') {
+  createLogo();
   createNavbar();
   createHolder();
 }
 
 // initiate sets page
 if (window.location.href === 'http://localhost:8080/sets.html') {
+  createLogo();
   createNavbar();
   createHolder();
 }
 
 // initiate bricks page
 if (window.location.href === 'http://localhost:8080/bricks.html') {
+  createLogo();
   createNavbar();
   createHolder();
   // createFilter();
@@ -405,7 +413,10 @@ if (window.location.href === 'http://localhost:8080/bricks.html') {
 
 // initiate basket page
 if (window.location.href === 'http://localhost:8080/basket.html') {
+  createLogo();
   createNavbar();
   createHolder();
   basket.initiateBasket();
 }
+
+console.log(window.search);

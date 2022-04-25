@@ -3,10 +3,20 @@
     background-color: #282828;
 }
 
+#searchBar{
+  position: absolute;
+  top: 15%;
+  left:5%;
+}
+#logo {
+  position: absolute;
+  left: 5%;
+}
 .navbar {
   position: absolute;
   width: 50%;
   height: 4%;
+  top: 7%;
   left: 5%;
   color: bisque;
   display: grid;
@@ -54,7 +64,7 @@
   align-content: space-around;
   gap: 5vh;
   position: absolute;
-  top: 15vh;
+  top: 20%;
   left: 5%;
 }
 .Block {
