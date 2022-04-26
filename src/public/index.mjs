@@ -44,7 +44,7 @@ async function createBrickInfoDiv(brickInfo) {
   brickInfoDiv.append(brickPrice);
   brickInfoDiv.append(brickDesc);
   brickInfoDiv.append(await createBuyButton(brickInfo));
-  brickInfoDiv.append(createRemoveButton(brickInfo));
+  brickInfoDiv.append(await createRemoveButton(brickInfo));
   return brickInfoDiv;
 }
 
@@ -54,12 +54,12 @@ async function createBrickInfoDiv(brickInfo) {
  * @param {obj} item 
  * @return {HTMLElement} button
  */
-export function createRemoveButton(item) {
+export async function createRemoveButton(item) {
   const binIcon = document.createElement("img");
   binIcon.src = './img/bin.png';
   binIcon.id = 'binButton';
   const basketAmount = document.createElement("div");
-  basketAmount.textContent = queryBasket(item);
+  basketAmount.textContent = await queryBasket(item);
   basketAmount.id = 'basketAmount';
   const rButton = document.createElement("div");
   rButton.id = "remove";
@@ -83,7 +83,7 @@ export function createRemoveButton(item) {
  * also updates number
  * @param {Event} e 
  */
-function removeButtonClickedBrick(e) {
+async function removeButtonClickedBrick(e) {
   // get current item
   let currentID = "";
   const textID = e.target.parentElement.parentElement.querySelector('#brickID').textContent;
@@ -94,9 +94,10 @@ function removeButtonClickedBrick(e) {
       currentID = currentID.concat(textID[i]);
     }
   }
-  removeFromBasket({id: currentID});
+  const currentItem = await fetchBrickInfo({id: parseInt(currentID)});
+  removeFromBasket(await currentItem);
   const text = e.target.parentElement.querySelector('#basketAmount');
-  text.innerText = queryBasket({id:currentID});
+  text.innerText = queryBasket(await currentItem);
 }
 /**
  * creates buy button
@@ -366,5 +367,3 @@ if (window.location.href === 'http://localhost:8080/basket.html') {
   createHolder();
   initiateBasket();
 }
-
-console.log(await fetchSetInfo({id: 1}));

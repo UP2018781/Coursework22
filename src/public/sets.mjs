@@ -103,7 +103,7 @@ async function createSetHolder (setInfo) {
 
         setHolder.append(setID, setName, setPrice, setDesc);
         setHolder.append(await createBuyButton(setInfo));
-        setHolder.append(index.createRemoveButton());
+        setHolder.append(await index.createRemoveButton(setInfo));
         return setHolder;
     }
 }
@@ -149,7 +149,6 @@ async function buyButtonClicked(e) {
     }
     // fetch item info from server (so we're sure the data is correct, and up to date, for example stock levels)
     const current = await fetchSetInfo(fetchBy);
-    console.log(await current);
 
     // add to basket
     current.stockLevel > 0 ? addBasket(current) : alert('out of stock!');
@@ -164,18 +163,19 @@ async function buyButtonClicked(e) {
  * also updates number
  * @param {Event} e 
  */
-export function removeButtonClickedSet(e) {
+export async function removeButtonClickedSet(e) {
     // get current item
     let currentID = "";
     const textID = e.target.parentElement.parentElement.querySelector('#setID').textContent;
-  
+
     // search text content of ID elem for the number
     for (const i in textID) {
       if (!isNaN(textID[i])) {
         currentID = currentID.concat(textID[i]);
       }
     }
-    removeFromBasket({id: currentID});
+    const currentItem = await fetchSetInfo({id: currentID});
+    removeFromBasket(await currentItem);
     const text = e.target.parentElement.querySelector('#basketAmount');
-    text.innerText = queryBasket({id:currentID});
-  }
+    text.innerText = queryBasket(await currentItem);
+}

@@ -149,9 +149,10 @@
 
 /*basket*/
 .BasketBlock {
-  background-color: rgb(227, 0, 11);
+  background-color: rgb(172, 167, 167);
   color: yellow;
   text-align: center;
+  border-color: darkslategrey;
   border-radius: 5px;
   border-style: solid;
   transition: all 200ms;
@@ -217,4 +218,19 @@
 #setDesc {
   grid-column: col2;
   grid-row: row3;
+}
+#setHolder #remove {
+  display: grid;
+  background-color: yellow;
+  grid-column: col1;
+  grid-row: row5;
+  grid-template-columns: [col1] 50% [col2] 50%;
+  grid-template-rows: [row1] 100%;
+}
+#setHolder #remove #binButton {
+  background-color: red;
+  height: 100%;
+}
+#setHolder #remove #binButton:hover {
+  background-color: rgb(145, 0, 0);
 }
