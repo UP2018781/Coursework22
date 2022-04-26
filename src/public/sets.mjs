@@ -1,6 +1,6 @@
-import * as index from './index.mjs';
+import {moreInfo, createRemoveButton} from './index.mjs';
 import {fetchSetInfo, fetchManySets} from './requests.mjs';
-import {removeFromBasket, addBasket, queryBasket} from './basket.mjs';
+import {removeFromBasket, addBasket, queryBasket, colours} from './basket.mjs';
 
 export async function initiateSets() {
     createSearch();
@@ -77,8 +77,9 @@ async function attachSetHolders (setArray, amount) {
  * @param {obj} setInfo 
  */
 async function createSetHolder (setInfo) {
-    const setHolder = document.createElement('div');
-
+    const setHolder = document.createElement('div');    
+    setHolder.style.border = `dashed ${colours[Math.floor(Math.random()*colours.length)]}`;
+    
     setHolder.style.height = '20vw';
     setHolder.style.width = '20vw';
     setHolder.classList.add('Block');
@@ -86,25 +87,26 @@ async function createSetHolder (setInfo) {
 
     // add information
     if (await setInfo.type == "set") {
-        const setID = document.createElement("span");
-        setID.id = 'setID';
-        const setName = document.createElement("span");
-        setName.id = 'setName';
-        const setPrice = document.createElement("span");
-        setPrice.id = 'setPrice';
-        const setDesc = document.createElement("span");
-        setDesc.id = 'setDesc';
+      const setID = document.createElement("span");
+      setID.id = 'setID';
+      const setName = document.createElement("span");
+      setName.id = 'setName';
+      const setPrice = document.createElement("span");
+      setPrice.id = 'setPrice';
+      const setDesc = document.createElement("span");
+      setDesc.id = 'setDesc';
 
-        await setInfo.id ? setID.textContent = `Set ID: ${setInfo.id}` : setID.textContent = 'Set ID: Unknown';
-        await setInfo.name ? setName.textContent = `${setInfo.name}` : setID.textContent = 'Unknown Set';
-        await setInfo.price ? setPrice.textContent = `$${setInfo.price}` : setID.textContent = '$???';
-        await setInfo.desc ? setDesc.textContent = `${setInfo.desc}` : setDesc.textContent = 'no description';
-        
+      await setInfo.id ? setID.textContent = `Set ID: ${setInfo.id}` : setID.textContent = 'Set ID: Unknown';
+      await setInfo.name ? setName.textContent = `${setInfo.name}` : setID.textContent = 'Unknown Set';
+      await setInfo.price ? setPrice.textContent = `$${setInfo.price}` : setID.textContent = '$???';
+      await setInfo.desc ? setDesc.textContent = `${setInfo.desc}` : setDesc.textContent = 'no description';
+      
 
-        setHolder.append(setID, setName, setPrice, setDesc);
-        setHolder.append(await createBuyButton(setInfo));
-        setHolder.append(await index.createRemoveButton(setInfo));
-        return setHolder;
+      setHolder.addEventListener("click", moreInfo);
+      setHolder.append(setID, setName, setPrice, setDesc);
+      setHolder.append(await createBuyButton(setInfo));
+      setHolder.append(await createRemoveButton(setInfo));
+      return setHolder;
     }
 }
 

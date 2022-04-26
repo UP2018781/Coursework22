@@ -1,51 +1,12 @@
 import { fetchBrickInfo, fetchManyBricks, fetchSetInfo } from './requests.mjs';
 import {removeFromBasket, addBasket, queryBasket, initiateBasket} from './basket.mjs';
 import {initiateSets, removeButtonClickedSet} from './sets.mjs';
-const allowedColours = ['red','blue','green'];
 
 function createLogo() {
   const logo = document.createElement("img");
   logo.src = './img/logo.gif';
   logo.id = 'logo';
   document.body.append(logo);
-}
-
-/**
- * create a div with all the bricks info in
- * @async
- * @param {JSON} brickInfo 
- * @returns brick info div
- */
-async function createBrickInfoDiv(brickInfo) {
-  // create divs
-  const brickInfoDiv = document.createElement('div');
-  brickInfoDiv.id = 'brickInfo';
-  let brickID = document.createElement('span');
-  brickID.id = "brickID";
-  let brickColour = document.createElement('span');
-  brickColour.id = "brickColour";
-  let brickPrice = document.createElement('span');
-  brickPrice.id = "brickPrice";
-  let brickName = document.createElement('span');
-  brickName.id = "brickName";
-  let brickDesc = document.createElement("span");
-  brickDesc.id = "brickDesc";
-
-  // check if info exists then add content to spans
-  await brickInfo.id ? brickID.textContent = `ID: ${brickInfo.id}` : brickID.textContent = 'ID not found';
-  await brickInfo.colour ? brickColour.textContent = `colour: ${brickInfo.colour}` : brickColour.textContent = 'colour not found';
-  await brickInfo.name ? brickName.textContent = brickInfo.name :  brickName.textContent = 'unknown brick';
-  await brickInfo.desc ? brickDesc.textContent = brickInfo.desc : brickDesc.textContent = `no description`;
-
-  // add all spans to brickInfoDiv and return
-  brickInfoDiv.append(brickID);
-  brickInfoDiv.append(brickName);
-  brickInfoDiv.append(brickColour);
-  brickInfoDiv.append(brickPrice);
-  brickInfoDiv.append(brickDesc);
-  brickInfoDiv.append(await createBuyButton(brickInfo));
-  brickInfoDiv.append(await createRemoveButton(brickInfo));
-  return brickInfoDiv;
 }
 
 /**
@@ -126,8 +87,9 @@ async function createBuyButton(brickInfo) {
 async function buyButtonClicked(e) {
   // get current item
   let currentID = "";
-  const textID = e.target.parentElement.parentElement.querySelector('#brickID').textContent;
-  const currentRemove = e.target.parentElement.parentElement.querySelector("#basketAmount");
+  const block = e.target.parentElement;
+  const textID = block.querySelector('#brickID').textContent;
+  const currentRemove = block.querySelector("#basketAmount");
     // search text content of ID elem for the number
   for (const i in textID) {
     if (!isNaN(textID[i])) {
@@ -158,21 +120,53 @@ async function createBrickHolder(brickInfo) {
   const brickHolder = document.createElement('div');
   const s = brickHolder.style;
   //if the colour of the brick is allowd, change the background colour to be the same as the brick :)
-  let allowed = false;
-  for (let i = 0; i < allowedColours.length; i++) {
-    if (brickInfo.colour == allowedColours[i]){
-      allowed = true;
-    }
-  }
-  allowed == true ? s.backgroundColor = brickInfo.colour : null;
-
-  s.height = '20vw';
-  s.width = '20vw';
+  s.border = `solid ${brickInfo.colour}`
   brickHolder.classList.add('Block');
   brickHolder.id = 'brickHolder';
+  
+  let brickID = document.createElement('span');
+  brickID.id = "brickID";
+  let brickColour = document.createElement('span');
+  brickColour.id = "brickColour";
+  let brickPrice = document.createElement('span');
+  brickPrice.id = "brickPrice";
+  let brickName = document.createElement('span');
+  brickName.id = "brickName";
+  let brickDesc = document.createElement("span");
+  brickDesc.id = "brickDesc";
 
-  brickHolder.append(await createBrickInfoDiv(await brickInfo));
+  // check if info exists then add content to spans
+  await brickInfo.id ? brickID.textContent = `ID: ${brickInfo.id}` : brickID.textContent = 'ID not found';
+  await brickInfo.colour ? brickColour.textContent = `colour: ${brickInfo.colour}` : brickColour.textContent = 'colour not found';
+  await brickInfo.name ? brickName.textContent = brickInfo.name :  brickName.textContent = 'unknown brick';
+  await brickInfo.desc ? brickDesc.textContent = brickInfo.desc : brickDesc.textContent = `no description`;
+
+  brickHolder.addEventListener("click", moreInfo);
+
+  brickHolder.append(brickID);
+  brickHolder.append(brickName);
+  brickHolder.append(brickColour);
+  brickHolder.append(brickPrice);
+  brickHolder.append(brickDesc);
+  brickHolder.append(await createBuyButton(brickInfo));
+  brickHolder.append(await createRemoveButton(brickInfo));
+
   return brickHolder;
+}
+
+export function moreInfo(e) {
+  if (e.target.id == 'brickHolder' || e.target.id == 'setHolder'){
+    e.target.style.width = '66vh';
+    e.target.style.height = '66vh';
+    e.target.removeEventListener("click", moreInfo);
+    e.target.addEventListener("click", lessInfo);
+  }
+}
+export function lessInfo(e) {
+  e.target.style.width = '33vh';
+  e.target.style.height = '33vh';
+  e.target.removeEventListener("click", lessInfo);
+  e.target.addEventListener("click", moreInfo);
 }
 
 /**
@@ -206,43 +200,6 @@ async function addBrickHolders(brickArray, amount) {
     }
   }
 }
-
-// function createFilter() {
-//   const filter = document.createElement('select');
-//   filter.id = 'filter';
-//   filter.classList.add('Block');
-
-//   const filterText = document.createElement('div');
-//   filterText.textContent = 'Filter: ';
-//   filterText.style.position = 'absolute';
-//   filterText.style.top = '7.5%';
-//   filterText.style.left = '5%';
-//   filterText.style.color = 'bisque';
-
-//   const idOption = document.createElement('option');
-//   idOption.value = 'all';
-//   idOption.textContent = 'all'
-
-//   const colourOption = document.createElement('option');
-//   colourOption.value = 'colour';
-//   colourOption.textContent = 'colour';
-
-//   filter.append(idOption);
-//   filter.append(colourOption);
-
-//   filter.addEventListener("change", async (e) => {
-//     removeAllBrickHolders();
-//     if (e.target.value == 'all'){
-//       await addBrickHolders(await fetchManyBricks({ all: true}));
-//     }
-//     if (e.target.value == 'colour') {
-//       await addBrickHolders(await fetchManyBricks({ colour: 'blue'}));
-//     }
-//   })
-
-//   filterText.append(filter);
-//   document.body.append(filterText);
-// }
 
 /**
  * uses the search bar to search through all the bricks available

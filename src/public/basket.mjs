@@ -1,4 +1,5 @@
 import * as index from './index.mjs';
+export const colours = ["#FC97AC", "#D60026", "#4C61DB", "#237841", "#F2CD37", "#FE8A18"]
 
 /**
  * retired function
@@ -38,9 +39,14 @@ function createBasketInfoDiv(brickInfo) {
     return brickInfoDiv;
 }
   
+/**
+ * 
+ * @param {obj} item 
+ */
 async function createBasketItem(item) {
     const basketItemHolder = document.createElement("div");
-
+    //make the colour correct
+    item.colour ? basketItemHolder.style.border = `solid ${item.colour}` : basketItemHolder.style.border = `dashed ${colours[Math.floor(Math.random()*colours.length)]}`;
     // do this no matter what
     const name = document.createElement("span");
     const price = document.createElement("span");
@@ -81,6 +87,9 @@ async function createBasketItem(item) {
 
 }
 
+/**
+ * function to create a basket page
+ */
 export async function initiateBasket() {
     let basket = window.localStorage.getItem("basket");
     basket == null ? basket = [] : basket = JSON.parse(basket);
@@ -90,6 +99,9 @@ export async function initiateBasket() {
     completeButton();
 }
 
+/**
+ * add the complete payment button (directly to the document)
+ */
 function completeButton() {
     const complete = document.createElement('button');
     complete.id = 'completeButton';
@@ -167,16 +179,24 @@ export function removeFromBasket(item) {
     window.localStorage.setItem("basket", basket);
 }
 
-function handlePayment() {
+async function handlePayment() {
     let basket = window.localStorage.basket;
     let totalCost = 0;
     basket == null ? basket = []: basket = JSON.parse(basket);
     for(let i = 0; i < basket.length; i++) {
         totalCost = totalCost + (basket[i].count * basket[i].price)
     }
-    window.localStorage.setItem("costTaken", totalCost);
-    window.localStorage.removeItem("basket");
-    window.location.href = './'
+    const confButton = document.createElement("button");
+    confButton.textContent = "click to confirm you have paid";
+    confButton.style.height = "10vw"
+    confButton.style.width = "30vw";
+    confButton.style.position = "absolute";
+    confButton.addEventListener("click", (e) => {
+        window.localStorage.setItem("costTaken", totalCost);
+        window.localStorage.removeItem("basket");
+        window.location.href = './';
+    })
+    document.body.append(confButton);
 }
 
 if (window.location.href == 'http://localhost:8080/payment.html') {
