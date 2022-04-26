@@ -86,8 +86,14 @@ export async function createRemoveButton(item) {
 async function removeButtonClickedBrick(e) {
   // get current item
   let currentID = "";
-  const textID = e.target.parentElement.parentElement.querySelector('#brickID').textContent;
-
+  let textID
+  const block = e.target.parentElement.parentElement;
+  try {
+    textID = block.querySelector('#brickID').textContent;
+  } catch {
+    textID = block.querySelector('#basketID').textContent;
+    block.remove();
+  }
   // search text content of ID elem for the number
   for (const i in textID) {
     if (!isNaN(textID[i])) {

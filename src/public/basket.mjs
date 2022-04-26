@@ -51,6 +51,7 @@ async function createBasketItem(item) {
     price.id = 'basketPrice';
     desc.id = 'basketDesc';
     ID.id = 'basketID';
+    ID.classList.add(item.id,item.type);
 
     item.name ? name.textContent = `${item.name}` : name.textContent = 'unknown name';
     item.price ? price.textContent = `$${item.price}` : price.textContent = '$???';
@@ -86,6 +87,23 @@ export async function initiateBasket() {
     for (let i = 0; i < basket.length; i++) {
         await createBasketItem(basket[i]);
     }
+    completeButton();
+}
+
+function completeButton() {
+    const complete = document.createElement('button');
+    complete.id = 'completeButton';
+
+    complete.textContent = 'complete purchase';
+    complete.addEventListener('click', completePurchase);
+    document.body.append(complete);
+}
+
+/**
+ * update stock from website & process payment
+ */
+async function completePurchase() {
+    window.location.href = './payment.html';
 }
 
 /**
@@ -147,4 +165,20 @@ export function removeFromBasket(item) {
     }
     basket = JSON.stringify(basket);
     window.localStorage.setItem("basket", basket);
+}
+
+function handlePayment() {
+    let basket = window.localStorage.basket;
+    let totalCost = 0;
+    basket == null ? basket = []: basket = JSON.parse(basket);
+    for(let i = 0; i < basket.length; i++) {
+        totalCost = totalCost + (basket[i].count * basket[i].price)
+    }
+    window.localStorage.setItem("costTaken", totalCost);
+    window.localStorage.removeItem("basket");
+    window.location.href = './'
+}
+
+if (window.location.href == 'http://localhost:8080/payment.html') {
+    handlePayment();
 }

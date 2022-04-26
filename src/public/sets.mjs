@@ -166,8 +166,15 @@ async function buyButtonClicked(e) {
 export async function removeButtonClickedSet(e) {
     // get current item
     let currentID = "";
-    const textID = e.target.parentElement.parentElement.querySelector('#setID').textContent;
-
+    const block = e.target.parentElement.parentElement;
+    let textID;
+    try{
+      textID = block.querySelector('#setID').textContent;
+    } catch {
+      textID = block.querySelector('#basketID').textContent;
+      block.remove();
+    }
+    // s
     // search text content of ID elem for the number
     for (const i in textID) {
       if (!isNaN(textID[i])) {
