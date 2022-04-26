@@ -149,6 +149,7 @@
 
 /*basket*/
 .BasketBlock {
+  display: grid;
   background-color: rgb(172, 167, 167);
   color: yellow;
   text-align: center;
@@ -156,43 +157,51 @@
   border-radius: 5px;
   border-style: solid;
   transition: all 200ms;
+  grid-template-columns: [margin1] 5% [col1] 30% [col2] 30% [col3] 15% [col4] 15% [margin2] 5%;
+  grid-template-rows: [margin1] 5% [row1] 20% [row2] 20% [row3] 20% [row4] 20% [row5] 15% [margin2] 5%;
 }
 .BasketBlock:hover {
   border-color: rgb(227, 0, 11);
 }
-#basketInfo {
+.BasketBlock #remove {
   display: grid;
-  height: 100%;
-  grid-template-columns: [margin1] 5% [col1] 30% [col2] 30% [col3] 15% [col4] 15% [margin2] 5%;
-  grid-template-rows: [margin1] 5% [row1] 20% [row2] 20% [row3] 20% [row4] 20% [row5] 15% [margin2] 5%;
-}
-#basketInfo #remove {
-  background-color: yellow;
-  grid-column: col4;
-  grid-row: row4;
-  display:grid;
-  height: 100%;
   grid-template-columns: [col1] 50% [col2] 50%;
   grid-template-rows: [row1] 100%;
 }
-#basketInfo #remove #binButton {
-  background-color: red;
-  border: solid black 1px;
+.BasketBlock #basketName {
+  grid-column: col2;
+  grid-row: row1;
+}
+.BasketBlock #basketID {
   grid-column: col1;
-  height: 100%;
+  grid-row: row1;
 }
-#basketInfo #remove #binButton:hover {
-  background-color: rgb(145, 0, 0);
+.BasketBlock #basketPrice {
+  grid-column: col2;
+  grid-row: row2;
 }
-#basketInfo #brickPhoto {
-  height: 100%;
-  width: 50%;
-  grid-column: col1;
-  grid-row: row2 / row5;
+.BasketBlock #basketDesc {
+  grid-column: col3;
+  grid-row: row1 / row2;
 }
-#basketInfo #brickPrice {
+.BasketBlock #basketColour {
+  grid-column: col2;
+  grid-row: row3;
+}
+.BasketBlock #remove {
+  display: grid;
+  background-color: yellow;
   grid-column: col3;
   grid-row: row4;
+  grid-template-columns: [col1] 50% [col2] 50%;
+  grid-template-rows: [row1] 100%;
+}
+.BasketBlock #binButton {
+  background-color: red;
+  height: 100%;
+}
+.BasketBlock #binButton:hover {
+  background-color: rgb(114, 0, 0);
 }
 
 /* sets */

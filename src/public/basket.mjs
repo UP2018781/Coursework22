@@ -1,6 +1,8 @@
 import * as index from './index.mjs';
 
-
+/**
+ * retired function
+ */
 function createBasketInfoDiv(brickInfo) {
     // create divs
     const brickInfoDiv = document.createElement('div');
@@ -36,9 +38,39 @@ function createBasketInfoDiv(brickInfo) {
     return brickInfoDiv;
 }
   
-function createBasketItem(brickInfo) {
+async function createBasketItem(item) {
     const basketItemHolder = document.createElement("div");
-    basketItemHolder.append( createBasketInfoDiv(brickInfo) );
+
+    // do this no matter what
+    const name = document.createElement("span");
+    const price = document.createElement("span");
+    const desc = document.createElement("span");
+    const ID = document.createElement("span");
+
+    name.id = 'basketName';
+    price.id = 'basketPrice';
+    desc.id = 'basketDesc';
+    ID.id = 'basketID';
+
+    item.name ? name.textContent = `${item.name}` : name.textContent = 'unknown name';
+    item.price ? price.textContent = `$${item.price}` : price.textContent = '$???';
+    item.desc ? desc.textContent = `${item.desc}` : desc.textContent = 'desc not found';
+    item.id ? ID.textContent = `ID: ${item.id}` : ID.textContent = 'ID: unknown';
+
+    // if item is a brick
+    if (item.type == 'brick') {
+        const colour = document.createElement("span");
+
+        colour.id = 'basketColour';
+
+        item.colour ? colour.textContent = `${item.colour}` : colour.textContent = 'Unknown colour';
+
+        basketItemHolder.append(colour);
+    }
+
+    basketItemHolder.append(name, price, desc, ID);
+    basketItemHolder.append(await index.createRemoveButton(item));
+
     basketItemHolder.classList.add("BasketBlock");
     basketItemHolder.style.height = "25vh";
     basketItemHolder.style.width = "90vw";
@@ -48,11 +80,11 @@ function createBasketItem(brickInfo) {
 
 }
 
-export function initiateBasket() {
+export async function initiateBasket() {
     let basket = window.localStorage.getItem("basket");
-    basket = JSON.parse(basket);
+    basket == null ? basket = [] : basket = JSON.parse(basket);
     for (let i = 0; i < basket.length; i++) {
-        createBasketItem(basket[i]);
+        await createBasketItem(basket[i]);
     }
 }
 
