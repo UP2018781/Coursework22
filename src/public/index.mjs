@@ -1,6 +1,7 @@
 import { fetchBrickInfo, fetchManyBricks, fetchSetInfo } from './requests.mjs';
 import {removeFromBasket, addBasket, queryBasket, initiateBasket} from './basket.mjs';
 import {initiateSets, removeButtonClickedSet} from './sets.mjs';
+import { addBrickHolders } from './bricks.mjs';
 
 function createLogo() {
   const logo = document.createElement("img");
@@ -71,7 +72,7 @@ async function removeButtonClickedBrick(e) {
  * @param {obj} brickInfo 
  * @returns {HTMLElement} buyButton
  */
-async function createBuyButton(brickInfo) {
+export async function createBuyButton(brickInfo) {
   let buyButton = document.createElement('button');
   brickInfo.price ? buyButton.textContent = `$${brickInfo.price}` : buyButton.textContent = `$???`;
   buyButton.id = 'buyButton';
@@ -88,7 +89,13 @@ async function buyButtonClicked(e) {
   // get current item
   let currentID = "";
   const block = e.target.parentElement;
-  const textID = block.querySelector('#brickID').textContent;
+  let textID;
+  let current;
+  if (block.id == 'brickHolder'){
+    textID = block.querySelector('#brickID').textContent;
+  } else if (block.id == 'setHolder') {
+    textID = block.querySelector('#setID').textContent;
+  }
   const currentRemove = block.querySelector("#basketAmount");
     // search text content of ID elem for the number
   for (const i in textID) {
@@ -101,57 +108,13 @@ async function buyButtonClicked(e) {
     id: parseInt(currentID),
   }
   // fetch item info from server (so we're sure the data is correct, and up to date, for example stock levels)
-  const current = await fetchBrickInfo(fetchBy);
-
+  block.id == 'brickHolder' ? current = await fetchBrickInfo(fetchBy) : null;
+  block.id == 'setHolder' ? current = await fetchSetInfo(fetchBy) : null;
   // add to basket
-  current.stockLevel > 0 ? addBasket(current) : alert('out of stock!');
+  await current.stockLevel > 0 ? addBasket(await current) : alert('out of stock!');
 
   currentRemove.textContent = parseInt(currentRemove.textContent) + 1;
 
-}
-
-/**
- * creates and formats brick holder
- * @async
- * @param {JSON} brickInfo 
- * @returns entire brick holder div
- */
-async function createBrickHolder(brickInfo) {
-  const brickHolder = document.createElement('div');
-  const s = brickHolder.style;
-  //if the colour of the brick is allowd, change the background colour to be the same as the brick :)
-  s.border = `solid ${brickInfo.colour}`
-  brickHolder.classList.add('Block');
-  brickHolder.id = 'brickHolder';
-  
-  let brickID = document.createElement('span');
-  brickID.id = "brickID";
-  let brickColour = document.createElement('span');
-  brickColour.id = "brickColour";
-  let brickPrice = document.createElement('span');
-  brickPrice.id = "brickPrice";
-  let brickName = document.createElement('span');
-  brickName.id = "brickName";
-  let brickDesc = document.createElement("span");
-  brickDesc.id = "brickDesc";
-
-  // check if info exists then add content to spans
-  await brickInfo.id ? brickID.textContent = `ID: ${brickInfo.id}` : brickID.textContent = 'ID not found';
-  await brickInfo.colour ? brickColour.textContent = `colour: ${brickInfo.colour}` : brickColour.textContent = 'colour not found';
-  await brickInfo.name ? brickName.textContent = brickInfo.name :  brickName.textContent = 'unknown brick';
-  await brickInfo.desc ? brickDesc.textContent = brickInfo.desc : brickDesc.textContent = `no description`;
-
-  brickHolder.addEventListener("click", moreInfo);
-
-  brickHolder.append(brickID);
-  brickHolder.append(brickName);
-  brickHolder.append(brickColour);
-  brickHolder.append(brickPrice);
-  brickHolder.append(brickDesc);
-  brickHolder.append(await createBuyButton(brickInfo));
-  brickHolder.append(await createRemoveButton(brickInfo));
-
-  return brickHolder;
 }
 
 export function moreInfo(e) {
@@ -184,22 +147,6 @@ function removeAllBrickHolders() {
   }
 }
 // can be better implemented when database is implemented
-/**
- * 
- * @param {obj} fetchBy 
- * @param {number} amount blank for as many as in the array 
- */
-async function addBrickHolders(brickArray, amount) {
-  if (amount) {
-    for (let i = 0; i < amount || i < brickArray.length ; i++) {
-      document.querySelector(".Holder").append(await createBrickHolder( await brickArray[i]));
-    }
-  } else {
-    for (let i = 0; i < brickArray.length; i++) {
-      document.querySelector('.Holder').append(await createBrickHolder( await brickArray[i]));
-    }
-  }
-}
 
 /**
  * uses the search bar to search through all the bricks available
@@ -252,7 +199,7 @@ function createSearch() {
 }
 
 /**
- * creates a holder for flex displaying bricks
+ * creates a holder for flex displaying items
  */
 function createHolder() {
   const Holder = document.createElement('div');

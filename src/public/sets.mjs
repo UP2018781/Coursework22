@@ -1,4 +1,4 @@
-import {moreInfo, createRemoveButton} from './index.mjs';
+import {moreInfo, createRemoveButton, createBuyButton} from './index.mjs';
 import {fetchSetInfo, fetchManySets} from './requests.mjs';
 import {removeFromBasket, addBasket, queryBasket, colours} from './basket.mjs';
 
@@ -79,9 +79,7 @@ async function attachSetHolders (setArray, amount) {
 async function createSetHolder (setInfo) {
     const setHolder = document.createElement('div');    
     setHolder.style.border = `dashed ${colours[Math.floor(Math.random()*colours.length)]}`;
-    
-    setHolder.style.height = '20vw';
-    setHolder.style.width = '20vw';
+  
     setHolder.classList.add('Block');
     setHolder.id = 'setHolder';
 
@@ -118,45 +116,6 @@ function removeAllSetHolders() {
     for (let i = 0; i< all.length; i++) {
         all[i].remove();
     }
-}
-
-/**
- * creates buy button
- * @param {obj} setInfo 
- * @returns {HTMLElement} buyButton
- */
-async function createBuyButton(setInfo) {
-    let buyButton = document.createElement('button');
-    setInfo.price ? buyButton.textContent = `$${setInfo.price}` : buyButton.textContent = `$???`;
-    buyButton.id = 'buyButton';
-
-    buyButton.addEventListener('click', buyButtonClicked);
-    return buyButton;
-}
-
-async function buyButtonClicked(e) {
-    // get current item    
-    let currentID = "";
-    const textID = e.target.parentElement.querySelector('#setID').textContent;
-    const currentRemove = e.target.parentElement.parentElement.querySelector("#basketAmount");
-    // search text content of ID elem for the number
-    for (const i in textID) {
-        if (!isNaN(textID[i])) {
-            currentID = currentID.concat(textID[i]);
-        }
-    }
-    // set fetch ID to current ID
-    const fetchBy = {
-        id: parseInt(currentID),
-    }
-    // fetch item info from server (so we're sure the data is correct, and up to date, for example stock levels)
-    const current = await fetchSetInfo(fetchBy);
-
-    // add to basket
-    current.stockLevel > 0 ? addBasket(current) : alert('out of stock!');
-
-    currentRemove.textContent = parseInt(currentRemove.textContent) + 1;
-
 }
 
 /**

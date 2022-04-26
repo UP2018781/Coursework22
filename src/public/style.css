@@ -126,7 +126,7 @@
 #brickHolder #remove #binButton {
   grid-column-start: col1;
   height: 100%;
-  width: 100%;
+  background-color: red;
   transition: all 100ms;
   background-color: red;
 }
@@ -154,12 +154,14 @@
   border-radius: 5px;
   border-style: solid;
   transition: all 200ms;
+  height: 20vh;
+  width: 90vw;
   grid-template-columns: [margin1] 5% [col1] 30% [col2] 30% [col3] 15% [col4] 15% [margin2] 5%;
   grid-template-rows: [margin1] 5% [row1] 20% [row2] 20% [row3] 20% [row4] 20% [row5] 15% [margin2] 5%;
 }
 .BasketBlock:hover {
   border: solid darkslategrey !important;
-  height: 40vh !important;
+  height: 33vh !important;
 }
 .BasketBlock #remove {
   display: grid;
@@ -217,8 +219,9 @@
 /* sets */
 
 #setHolder {
+  height: 33vh;
+  width: 33vh;
   display: grid;
-  font: 10px;
   grid-template-columns: [margin1] 2.5% [col1] 47.5% [col2] 47.5% [margin2] 2.5%;
   grid-template-rows: [margin1] 2.5% [row1] 10% [row2] 10% [row3] 10% [row4] 45% [row5] 20% [margin2] 2.5%;
 }

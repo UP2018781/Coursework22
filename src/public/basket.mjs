@@ -79,8 +79,6 @@ async function createBasketItem(item) {
     basketItemHolder.append(await index.createRemoveButton(item));
 
     basketItemHolder.classList.add("BasketBlock");
-    basketItemHolder.style.height = "25vh";
-    basketItemHolder.style.width = "90vw";
     const s = basketItemHolder.style;
     const holder = document.querySelector(".Holder");
     holder.append(basketItemHolder);
