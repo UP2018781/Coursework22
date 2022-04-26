@@ -1,9 +1,10 @@
 [
     {
-        "SetID": 1,
-        "Name": "Bonsai tree",
-        "Price": "£123.45",
-        "Desc": "A lovely bonsai tree hand designed by our incredible design team especially for your pleasure",
-        "StockLevel": 2
+        "type": "set",
+        "id": 1,
+        "name": "Bonsai tree",
+        "price": "123.45",
+        "desc": "A lovely bonsai tree hand designed by our incredible design team especially for your pleasure",
+        "stockLevel": 2
     }
 ]

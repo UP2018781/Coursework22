@@ -55,3 +55,64 @@ export function initiateBasket() {
         createBasketItem(basket[i]);
     }
 }
+/**
+ * takes an object and adds it to the basket in localstorage
+ * @param {obj} item 
+ */
+export function addBasket(item, amount) {
+    let basket = window.localStorage.getItem("basket");
+    basket == null ? basket = [] : basket = JSON.parse(basket);
+    let contains = false;
+  
+    // if the array contains the item already, add one to the count and change 'contains' to true
+    for (let i = 0; i < basket.length; i++) {
+      if (basket[i].id == item.id) {
+        contains = true;
+        amount == undefined ? basket[i].count = basket[i].count + 1 : basket[i].count = basket[i].count + amount;
+      }
+    }
+  
+    // if the array doesnt contain the item, push the item
+    amount == undefined ? item.count = 1 : item.count = parseInt(amount);
+    contains == false ? basket.push(item) : null;
+    
+    // write back to localstorage
+    basket = JSON.stringify(basket);
+    window.localStorage.setItem("basket", basket);
+}
+  
+/**
+ * takes an object and searches the basket for how many of that item there are
+ * @param {obj} item 
+ * @returns {number} count
+ */
+export function queryBasket(item) {
+    let basket = window.localStorage.getItem("basket");
+    basket == null ? basket = [] : basket = JSON.parse(basket);
+    let count = 0;
+
+    for(let i = 0; i < basket.length; i++) {
+        basket[i].id == item.id && basket[i].type == item.type ? count = basket[i].count : null;
+    }
+
+    return(count);
+}
+
+/**
+ * takes an object and removes it from the basket in localstorage
+ * @param {obj} item 
+ */
+export function removeFromBasket(item) {
+    let basket = window.localStorage.getItem("basket");
+    basket == null ? basket = [] : basket = JSON.parse(basket);
+
+    for (let i = 0; i < basket.length; i++) {
+        if (parseInt(basket[i].id) == item.id && basket[i].type == item.type) {
+            basket.splice(i,1);
+            console.log(basket);
+            console.log("item removed");
+        }
+    }
+    basket = JSON.stringify(basket);
+    window.localStorage.setItem("basket", basket);
+}

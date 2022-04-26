@@ -1,5 +1,6 @@
-import { fetchBrickInfo, fetchManyBricks } from './requests.mjs';
-import * as basket from './basket.mjs';
+import { fetchBrickInfo, fetchManyBricks, fetchSetInfo } from './requests.mjs';
+import {removeFromBasket, addBasket, queryBasket, initiateBasket} from './basket.mjs';
+import {initiateSets, removeButtonClickedSet} from './sets.mjs';
 const allowedColours = ['red','blue','green'];
 
 function createLogo() {
@@ -43,69 +44,8 @@ async function createBrickInfoDiv(brickInfo) {
   brickInfoDiv.append(brickPrice);
   brickInfoDiv.append(brickDesc);
   brickInfoDiv.append(await createBuyButton(brickInfo));
-  await brickInfoDiv.append(createRemoveButton(brickInfo));
-  return await brickInfoDiv;
-}
-/**
- * takes an object and adds it to the basket in localstorage
- * @param {obj} item 
- */
-function addBasket(item, amount) {
-  let basket = window.localStorage.getItem("basket");
-  basket == null ? basket = [] : basket = JSON.parse(basket);
-  let contains = false;
-
-  // if the array contains the item already, add one to the count and change 'contains' to true
-  for (let i = 0; i < basket.length; i++) {
-    if (basket[i].id == item.id) {
-      contains = true;
-      amount == undefined ? basket[i].count = basket[i].count + 1 : basket[i].count = basket[i].count + amount;
-    }
-  }
-
-  // if the array doesnt contain the item, push the item
-  amount == undefined ? item.count = 1 : item.count = parseInt(amount);
-  contains == false ? basket.push(item) : null;
-  
-  // write back to localstorage
-  basket = JSON.stringify(basket);
-  window.localStorage.setItem("basket", basket);
-}
-
-/**
- * takes an object and searches the basket for how many of that item there are
- * @param {obj} item 
- * @returns {number} count
- */
-function queryBasket(item) {
-  let basket = window.localStorage.getItem("basket");
-  basket == null ? basket = [] : basket = JSON.parse(basket);
-  let count = 0;
-
-  for(let i = 0; i < basket.length; i++) {
-    basket[i].id == item.id ? count = basket[i].count : null;
-  }
-
-  return(count);
-}
-
-/**
- * takes an object and removes it from the basket in localstorage
- * @param {obj} item 
- */
-function removeFromBasket(item) {
-  let basket = window.localStorage.getItem("basket");
-  basket == null ? basket = [] : basket = JSON.parse(basket);
-  
-  for (let i = 0; i < basket.length; i++) {
-    if (parseInt(basket[i].id) == item.id) {
-      basket.splice(i,1);
-      console.log(basket);
-      console.log("item removed");
-    }
-  }
-  basket = JSON.stringify(basket);
-  window.localStorage.setItem("basket", basket);
+  brickInfoDiv.append(createRemoveButton(brickInfo));
+  return brickInfoDiv;
 }
 
 /**
@@ -118,15 +58,21 @@ export function createRemoveButton(item) {
   const binIcon = document.createElement("img");
   binIcon.src = './img/bin.png';
   binIcon.id = 'binButton';
-  binIcon.addEventListener("click", removeButtonClicked);
-
   const basketAmount = document.createElement("div");
   basketAmount.textContent = queryBasket(item);
   basketAmount.id = 'basketAmount';
   const rButton = document.createElement("div");
   rButton.id = "remove";
   rButton.append(basketAmount);
-  rButton.prepend(binIcon);
+
+  if (item.type == 'brick'){
+    binIcon.addEventListener("click", removeButtonClickedBrick);
+    rButton.prepend(binIcon);
+  }
+  if (item.type == 'set') {
+    binIcon.addEventListener("click", removeButtonClickedSet);
+    rButton.prepend(binIcon);
+  }
 
   return rButton;
 }
@@ -137,11 +83,12 @@ export function createRemoveButton(item) {
  * also updates number
  * @param {Event} e 
  */
-function removeButtonClicked(e) {
+function removeButtonClickedBrick(e) {
   // get current item
   let currentID = "";
   const textID = e.target.parentElement.parentElement.querySelector('#brickID').textContent;
-    // search text content of ID elem for the number
+
+  // search text content of ID elem for the number
   for (const i in textID) {
     if (!isNaN(textID[i])) {
       currentID = currentID.concat(textID[i]);
@@ -395,6 +342,7 @@ if (window.location.href === 'http://localhost:8080/sets.html') {
   createLogo();
   createNavbar();
   createHolder();
+  initiateSets();
 }
 
 // initiate bricks page
@@ -416,7 +364,7 @@ if (window.location.href === 'http://localhost:8080/basket.html') {
   createLogo();
   createNavbar();
   createHolder();
-  basket.initiateBasket();
+  initiateBasket();
 }
 
-console.log(window.search);
+console.log(await fetchSetInfo({id: 1}));

@@ -1,6 +1,7 @@
 :root{
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     background-color: #282828;
+    font-size: 10px;
 }
 
 #searchBar{
@@ -191,4 +192,29 @@
 #basketInfo #brickPrice {
   grid-column: col3;
   grid-row: row4;
+}
+
+/* sets */
+
+#setHolder {
+  display: grid;
+  font: 10px;
+  grid-template-columns: [margin1] 2.5% [col1] 47.5% [col2] 47.5% [margin2] 2.5%;
+  grid-template-rows: [margin1] 2.5% [row1] 10% [row2] 10% [row3] 10% [row4] 45% [row5] 20% [margin2] 2.5%;
+}
+#setID {
+  grid-column: col1;
+  grid-row: row1;
+}
+#setName {
+  grid-column: col2;
+  grid-row: row1;
+}
+#setPrice {
+  grid-column: col2;
+  grid-row: row2;
+}
+#setDesc {
+  grid-column: col2;
+  grid-row: row3;
 }
