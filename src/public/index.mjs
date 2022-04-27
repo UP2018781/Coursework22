@@ -62,7 +62,7 @@ async function removeButtonClickedBrick(e) {
       currentID = currentID.concat(textID[i]);
     }
   }
-  const currentItem = await fetchBrickInfo({id: parseInt(currentID)});
+  const currentItem = await fetchBrickInfo(parseInt(currentID));
   removeFromBasket(await currentItem);
   const text = e.target.parentElement.querySelector('#basketAmount');
   text.innerText = queryBasket(await currentItem);
@@ -103,15 +103,13 @@ async function buyButtonClicked(e) {
       currentID = currentID.concat(textID[i]);
     }
   }
-  // set fetch ID to current ID
-  const fetchBy = {
-    id: parseInt(currentID),
-  }
+
   // fetch item info from server (so we're sure the data is correct, and up to date, for example stock levels)
-  block.id == 'brickHolder' ? current = await fetchBrickInfo(fetchBy) : null;
-  block.id == 'setHolder' ? current = await fetchSetInfo(fetchBy) : null;
+  block.id == 'brickHolder' ? current = await fetchBrickInfo(currentID) : null;
+  block.id == 'setHolder' ? current = await fetchSetInfo(currentID) : null;
   // add to basket
-  await current.stockLevel > 0 ? addBasket(await current) : alert('out of stock!');
+  console.log(current);
+  await current.stocklevel > 0 ? addBasket(await current) : alert('out of stock!');
 
   currentRemove.textContent = parseInt(currentRemove.textContent) + 1;
 

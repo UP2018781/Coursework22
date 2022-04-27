@@ -3,7 +3,7 @@ import fs from 'fs';
 import * as path from 'path';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import { checkBrick } from './databaseFunctions.mjs';
+import * as db from './databaseFunctions.mjs';
 
 let bricks;
 try {
@@ -54,18 +54,9 @@ server.listen(port, () => {
 
 async function queryBrick(req, res) {
 
-  let brickInfo = {};
-  if (req.body.id) {
-    for (let i = 0; i < bricks.length; i++) {
-      bricks[i].id == req.body.id ? brickInfo = bricks[i] : null;
-    }
-  }
-  if (req.body.colour) {
-    for (let i = 0; i < bricks.length; i++) {
-      bricks[i].colour == req.body.colour ? brickInfo = bricks[i] : null;
-    }
-  }
-
+  let brickInfo = await db.queryBrick(await req.body.id)
+  brickInfo = brickInfo[0];
+  brickInfo.id != null ? brickInfo.type = 'brick' : null;
   res.status(200).json({
     brickInfo,
   });
@@ -132,5 +123,3 @@ async function queryManySets(req, res) {
     setArray,
   });
 }
-
-checkBrick();
