@@ -40,7 +40,8 @@ VALUES
 (DEFAULT, 'yellow', 10, 9.99, 'yellow 2x4', 'standard full size yellow 2x4'),
 (DEFAULT, 'green', 10, 1.09, 'green 1x1 stud', 'a green 1x1 stud, rare for the colour!'),
 (DEFAULT, 'blue', 10, 0.50, 'blue 2x4', 'standard full size blue 2x4'),
-(DEFAULT, 'green', 10, 1.99, 'green 2x2', 'standard full size green 2x2');
+(DEFAULT, 'green', 10, 1.99, 'green 2x2', 'standard full size green 2x2'),
+(DEFAULT, 'orange', 15, 3.45, 'orange 2x2', 'standard full size orange 2x2');
 
 INSERT INTO sets (ID, name, price, Description, stocklevel)
 VALUES

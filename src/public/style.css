@@ -137,7 +137,7 @@
   grid-column-start: col2;
   color: black;
 }
-#brickDesc {
+#brickDescription {
   grid-column: col2;
   grid-row: row2;
 }
@@ -242,7 +242,7 @@
   grid-column: col2;
   grid-row: row2;
 }
-#setDesc {
+#setDescription {
   grid-column: col2;
   grid-row: row3;
 }

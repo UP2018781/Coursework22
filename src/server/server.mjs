@@ -63,21 +63,9 @@ async function queryBrick(req, res) {
 }
 
 async function queryManyBricks(req, res) {
-  let brickArray = [];
-  if (req.body.id) {
-    for (let i = 0; i < bricks.length; i++) {
-      bricks[i].id == req.body.id ? brickArray.push(bricks[i]) : null;
-    }
-  }
-  if (req.body.colour) {
-    for (let i = 0; i < bricks.length; i++) {
-      bricks[i].colour == req.body.colour ? brickArray.push(bricks[i]) : null;
-    }
-  }
-  if (req.body.all) {
-    for (let i = 0; i < bricks.length; i++) {
-      brickArray.push(bricks[i]);
-    }
+  const brickArray = await db.queryManyBricks(await req.body);
+  for (let i in brickArray){
+    brickArray[i].type = 'brick';
   }
   res.status(200).json({
     brickArray,

@@ -22,14 +22,14 @@ async function createBrickHolder(brickInfo) {
     brickPrice.id = "brickPrice";
     let brickName = document.createElement('span');
     brickName.id = "brickName";
-    let brickDesc = document.createElement("span");
-    brickDesc.id = "brickDesc";
+    let brickDescription = document.createElement("span");
+    brickDescription.id = "brickDescription";
   
     // check if info exists then add content to spans
     await brickInfo.id ? brickID.textContent = `ID: ${brickInfo.id}` : brickID.textContent = 'ID not found';
     await brickInfo.colour ? brickColour.textContent = `colour: ${brickInfo.colour}` : brickColour.textContent = 'colour not found';
     await brickInfo.name ? brickName.textContent = brickInfo.name :  brickName.textContent = 'unknown brick';
-    await brickInfo.desc ? brickDesc.textContent = brickInfo.desc : brickDesc.textContent = `no description`;
+    await brickInfo.description ? brickDescription.textContent = brickInfo.description : brickDescription.textContent = `no Description`;
   
     brickHolder.addEventListener("click", moreInfo);
   
@@ -37,7 +37,7 @@ async function createBrickHolder(brickInfo) {
     brickHolder.append(brickName);
     brickHolder.append(brickColour);
     brickHolder.append(brickPrice);
-    brickHolder.append(brickDesc);
+    brickHolder.append(brickDescription);
     brickHolder.append(await createBuyButton(brickInfo));
     brickHolder.append(await createRemoveButton(brickInfo));
   

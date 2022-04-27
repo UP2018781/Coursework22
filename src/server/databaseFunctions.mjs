@@ -48,8 +48,29 @@ export async function queryBrick(ID) {
 
 export async function queryManyBricks(fetchBy) {
     const user = await pool.connect();
-    let result;
+    let query = `SELECT * FROM bricks WHERE `;
+    let and = false;
     if (fetchBy.id > 0) {
-        result = await user.query(`SELECT * FROM bricks WHERE ID = ${fetchBy.id}`);
+        query = query+`id = ${fetchBy.id}`;
+        and = true;
     }
+    if (fetchBy.colour) {
+        if (and) {
+            query = query+` AND `;
+        }
+        query = query+`colour = '${fetchBy.colour}'`;
+        and = true;
+    }
+    if (fetchBy.price) {
+        if (and) {
+            query = query+` AND `;
+        }
+        query = query+`price = ${fetchBy.price}`;
+    }
+    if (fetchBy.all = true) {
+        query = `select * from bricks`;
+    }
+    console.log(query);
+    const result = await user.query(query);
+    return(await result.rows);
 }
