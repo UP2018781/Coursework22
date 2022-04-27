@@ -1,0 +1,17 @@
+CREATE TABLE bricks (
+    ID SERIAL PRIMARY KEY,
+    Colour VARCHAR(20),
+    StockLevel SMALLINT NOT NULL,
+    Price FLOAT(2) NOT NULL,
+    Name VARCHAR(32),
+    Description TEXT
+);
+
+INSERT INTO bricks (ID, Colour, StockLevel, Price, Name, Description) 
+VALUES
+(DEFAULT, 'blue', 10, 2.00, 'blue 2x2', 'standard full size blue 2x2'),
+(DEFAULT, 'red', 10, 3.00, 'red 2x2', 'standard full size red 2x2'),
+(DEFAULT, 'yellow', 10, 9.99, 'yellow 2x4', 'standard full size yellow 2x4'),
+(DEFAULT, 'green', 10, 1.09, 'green 1x1 stud', 'a green 1x1 stud, rare for the colour!'),
+(DEFAULT, 'blue', 10, 0.50, 'blue 2x4', 'standard full size blue 2x4'),
+(DEFAULT, 'green', 10, 1.99, 'green 2x2', 'standard full size green 2x2');
