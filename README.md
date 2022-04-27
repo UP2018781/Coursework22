@@ -120,23 +120,41 @@ end users need to be able to:
   ![progress 2](./img/searchBar1.png)
   ![progress 2](./img/searchBar2.png)
 
-    ### progress 1
+
+# PROGRESS
+
+  ### progress 1
     
     completed some functionality.
 
     very basic in design and functionality. Client fetches data from the server (data stored in a json for now) and displays in these item holders. Filter has an inadequate event listener that can update the page. Navbar works, but can be improved.
     Used objects as the parameters in ./src/public/requests.mjs so that the requests can be flexible with parameters
 
-    ### progress 2
+  ### progress 2
 
     added search bar
 
     got some advanced functionality. Can search any aspect of the brick. Can be improved, for example doesn't search for words in description just compares search value. <- will test this with a larger sample of bricks to check efficiency.
 
-    ### progress 3
+  ### progress 3
 
     added basket functionality ustilising localstorage.
     styling can be improved but is semi-functional for now at least
     ![ERD](./img/erd.png)
     erd is not complex and fairly simple to implement.
     will have the setup (npm run setup) start a database for the submission. Real function would have a permanent database.
+
+  ### progress 4
+
+    fully added bricks, sets and basket client side,
+    these will need updating once the database is working to include sets linking to bricks.
+    Started working on database
+      ![database](./img/database1.png)
+    Here is a picture of the server getting output from the database and the psql commands used to create the basic server
+    Still need to figure out the best way to have the PC connect to the database
+    ![bricks](./img/brickspage1.png)
+    update on the bricks page, going for a childish nostalgic look
+    ![basket](./img/basketpage.png)
+    basket working as intended, mostly happy with the way this looks.
+    made custom logo too:
+    ![logo](./src/public/img/logo.gif)
