@@ -189,6 +189,11 @@
   grid-column: col2;
   grid-row: row3;
 }
+.BasketBlock #basketType {
+  grid-column: margin1;
+  grid-row: margin1 / row2;
+  border-bottom-right-radius: 5px;
+}
 .BasketBlock #remove {
   display: grid;
   background-color: yellow;

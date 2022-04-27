@@ -52,17 +52,20 @@ async function createBasketItem(item) {
     const price = document.createElement("span");
     const desc = document.createElement("span");
     const ID = document.createElement("span");
+    const type = document.createElement("span");
 
     name.id = 'basketName';
     price.id = 'basketPrice';
     desc.id = 'basketDesc';
     ID.id = 'basketID';
-    ID.classList.add(item.id,item.type);
+    type.id = 'basketType';
+    type.style.backgroundColor = basketItemHolder.style.borderColor;
 
     item.name ? name.textContent = `${item.name}` : name.textContent = 'unknown name';
     item.price ? price.textContent = `$${item.price}` : price.textContent = '$???';
     item.desc ? desc.textContent = `${item.desc}` : desc.textContent = 'desc not found';
     item.id ? ID.textContent = `ID: ${item.id}` : ID.textContent = 'ID: unknown';
+    item.type ? type.textContent = `${item.type}` : type.textContent = 'not found';
 
     // if item is a brick
     if (item.type == 'brick') {
@@ -75,7 +78,7 @@ async function createBasketItem(item) {
         basketItemHolder.append(colour);
     }
 
-    basketItemHolder.append(name, price, desc, ID);
+    basketItemHolder.append(name, price, desc, ID, type);
     basketItemHolder.append(await index.createRemoveButton(item));
 
     basketItemHolder.classList.add("BasketBlock");

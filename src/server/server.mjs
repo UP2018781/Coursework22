@@ -3,6 +3,7 @@ import fs from 'fs';
 import * as path from 'path';
 import cors from 'cors';
 import bodyParser from 'body-parser';
+import { checkBrick } from './databaseFunctions.mjs';
 
 let bricks;
 try {
@@ -131,3 +132,5 @@ async function queryManySets(req, res) {
     setArray,
   });
 }
+
+checkBrick();
