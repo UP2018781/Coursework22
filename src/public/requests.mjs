@@ -45,13 +45,12 @@ export async function fetchManyBricks(fetchBy) {
     return await brickArray;
 }
 
-export async function fetchSetInfo(fetchBy) {
+export async function fetchSetInfo(id) {
     const response = await fetch(new URL('http://127.0.0.1:8080/query_set'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            id: fetchBy.id,
-            name: fetchBy.name,
+            id: id,
         })
     });
     const res = await response.json();

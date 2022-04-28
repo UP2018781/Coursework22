@@ -39,7 +39,7 @@ async function handleSearch(e) {
         arrayToPost.push(setArray[i]);
       } else if (setArray[i].Price == searchValue) {
         arrayToPost.push(setArray[i]);
-      } else if (setArray[i].Desc == searchValue) {
+      } else if (setArray[i].description == searchValue) {
         arrayToPost.push(setArray[i]);
       } else {
         null;
@@ -91,17 +91,17 @@ async function createSetHolder (setInfo) {
       setName.id = 'setName';
       const setPrice = document.createElement("span");
       setPrice.id = 'setPrice';
-      const setDesc = document.createElement("span");
-      setDesc.id = 'setDesc';
+      const setDescription = document.createElement("span");
+      setDescription.id = 'setDescription';
 
       await setInfo.id ? setID.textContent = `Set ID: ${setInfo.id}` : setID.textContent = 'Set ID: Unknown';
       await setInfo.name ? setName.textContent = `${setInfo.name}` : setID.textContent = 'Unknown Set';
       await setInfo.price ? setPrice.textContent = `$${setInfo.price}` : setID.textContent = '$???';
-      await setInfo.desc ? setDesc.textContent = `${setInfo.desc}` : setDesc.textContent = 'no description';
+      await setInfo.description ? setDescription.textContent = `${setInfo.description}` : setDescription.textContent = 'no description';
       
 
       setHolder.addEventListener("click", moreInfo);
-      setHolder.append(setID, setName, setPrice, setDesc);
+      setHolder.append(setID, setName, setPrice, setDescription);
       setHolder.append(await createBuyButton(setInfo));
       setHolder.append(await createRemoveButton(setInfo));
       return setHolder;

@@ -5,27 +5,6 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import * as db from './databaseFunctions.mjs';
 
-let bricks;
-try {
-  fs.readFile('./src/server/bricks.json', 'utf8', (err, data) => {
-    err ? console.warn(err) : null;
-    bricks = JSON.parse(data);
-    data ? console.log("bricks fetched") : null
-  });
-} catch {
-  console.error("bricks cannot be fetched");
-}
-let sets;
-try {
-  fs.readFile('./src/server/sets.json', 'utf8', (err, data) => {
-    err ? console.warn(err) : null;
-    sets = JSON.parse(data);
-    data ? console.log("sets fetched") : null
-  });
-} catch {
-  console.error("sets cannot be fetched");
-}
-
 const server = express();
 const port = 8080;
 
@@ -67,6 +46,7 @@ async function queryManyBricks(req, res) {
   for (let i in brickArray){
     brickArray[i].type = 'brick';
   }
+  console.log(`bricks fetched ${brickArray.length}`);
   res.status(200).json({
     brickArray,
   });
@@ -74,16 +54,7 @@ async function queryManyBricks(req, res) {
 
 async function querySet(req, res) {
   let setInfo = {};
-  if (req.body.id) {
-    for (let i = 0; i < sets.length; i++) {
-      sets[i].id == req.body.id ? setInfo = sets[i] : null;
-    }
-  }
-  if (req.body.name) {
-    for (let i = 0; i < sets.length; i++) {
-      sets[i].name == req.body.name ? setInfo = sets[i] : null;
-    }
-  }
+  req.body.id > 0 ? setInfo = await db.querySet(req.body.id) : null;
 
   res.status(200).json({
     setInfo,
@@ -91,22 +62,14 @@ async function querySet(req, res) {
 }
 
 async function queryManySets(req, res) {
-  let setArray = [];
-  if (req.body.id) {
-    for (let i = 0; i < sets.length; i++) {
-      sets[i].id == req.body.id ? setArray.push(sets[i]) : null;
-    }
+  const setArray = await db.queryManySets(req.body);
+
+  for (let i in setArray) {
+    setArray[i].type = 'set';
   }
-  if (req.body.colour) {
-    for (let i = 0; i < sets.length; i++) {
-      sets[i].name == req.body.name ? setArray.push(sets[i]) : null;
-    }
-  }
-  if (req.body.all) {
-    for (let i = 0; i < sets.length; i++) {
-      setArray.push(sets[i]);
-    }
-  }
+
+  console.log(`sets fetched: ${setArray.length}`);
+
   res.status(200).json({
     setArray,
   });

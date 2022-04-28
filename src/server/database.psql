@@ -4,7 +4,8 @@ CREATE TABLE bricks (
     StockLevel SMALLINT NOT NULL,
     Price FLOAT(2) NOT NULL,
     Name VARCHAR(32),
-    Description TEXT
+    Description TEXT,
+    Image TEXT
 );
 
 CREATE TABLE sets (
@@ -12,7 +13,8 @@ CREATE TABLE sets (
     Name VARCHAR(32),
     Price FLOAT(2) NOT NULL,
     Description TEXT,
-    StockLevel SMALLINT NOT NULL
+    StockLevel SMALLINT NOT NULL,
+    Image TEXT
 );
 
 CREATE TABLE bricksInSets (
