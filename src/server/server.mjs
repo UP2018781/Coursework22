@@ -4,7 +4,7 @@ import * as path from 'path';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import * as db from './databaseFunctions.mjs';
-import authConfig from './auth-config.mjs';
+// import authConfig from './auth-config.mjs';
 
 const server = express();
 const port = 8080;

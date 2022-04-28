@@ -76,7 +76,7 @@ async function attachSetHolders (setArray, amount) {
  * create a set box
  * @param {obj} setInfo 
  */
-async function createSetHolder (setInfo) {
+export async function createSetHolder (setInfo) {
     const setHolder = document.createElement('div');    
     setHolder.style.border = `dashed ${colours[Math.floor(Math.random()*colours.length)]}`;
   

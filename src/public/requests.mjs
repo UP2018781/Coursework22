@@ -83,3 +83,37 @@ export async function updateStock(id, type, amount) {
         })
     });
 }
+
+export async function fetchUsersFavourites(userToken) {
+    // const response  = await fetch (new URL(`http://${window.location.host}/get_favourites`), {
+    //     method: 'POST',
+    //     headers: { 'Content-Type': 'application/json'},
+    //     body: JSON.stringify({
+    //         token: userToken
+    //     })
+    // });
+    // const res = await response.json();
+    // const favourites = await res.favourites;
+    const favourites = [1,4,5,7,8,5,3];
+    return await favourites;
+}
+
+export async function fetchSuggestedSets(userToken) {
+    // const response  = await fetch (new URL(`http://${window.location.host}/get_suggested_sets`), {
+    //     method: 'POST',
+    //     headers: { 'Content-Type': 'application/json'},
+    //     body: JSON.stringify({
+    //         token: userToken
+    //     })
+    // });
+    // const res = await response.json();
+    // const suggestedSets = res.sets;
+
+    const suggestedSets = [1,2];
+    return await suggestedSets;
+}
+
+export async function fetchSuggestedBricks(userToken) {
+    const suggestedBricks = [7,6,5,8,9,10];
+    return await suggestedBricks;
+}

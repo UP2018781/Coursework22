@@ -6,7 +6,7 @@ import { createBuyButton, createRemoveButton, moreInfo } from "./index.mjs";
  * @param {JSON} brickInfo 
  * @returns entire brick holder div
  */
-async function createBrickHolder(brickInfo) {
+export async function createBrickHolder(brickInfo) {
     const brickHolder = document.createElement('div');
     const s = brickHolder.style;
     //if the colour of the brick is allowd, change the background colour to be the same as the brick :)

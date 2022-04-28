@@ -61,6 +61,79 @@
   grid-row: row1;
 }
 
+/* Home */
+
+#favouritesHolder {
+  max-width: 90vw;
+  padding: 7px;
+  border-radius: 5px;
+  border: yellow solid 1px ;
+  height: 43vh;
+  overflow-x: scroll;
+  display: flex;
+  flex-direction: row;
+  align-content: space-between;
+  gap: 5vh;
+} #favouritesHolder::before {
+  content: "Favourites";
+  color: yellow;
+  border: solid 1px;
+  position: absolute;
+  text-align: center;
+  left: -5%;
+  width: 10%;
+  padding: 3px;
+  background-color: darkslategray;
+}
+
+#setsHolder {
+  max-width: 90vw;
+  padding: 7px;
+  border-radius: 5px;
+  border: yellow solid 1px ;
+  height: 43vh;
+  overflow-x: scroll;
+  display: flex;
+  flex-direction: row;
+  align-content: space-between;
+  gap: 5vh;
+} #setsHolder::before {
+  content: "Suggested Sets";
+  color: yellow;
+  position: absolute;
+  border: solid 1px;
+  position: absolute;
+  left: -5%;
+  text-align: center;
+  width: 10%;
+  padding: 3px;
+  background-color: darkslategray;
+}
+
+#bricksHolder {
+  max-width: 90vw;
+  padding: 7px;
+  border-radius: 5px;
+  border: yellow solid 1px ;
+  height: 43vh;
+  overflow-x: scroll;
+  display: flex;
+  flex-direction: row;
+  align-content: space-between;
+  gap: 5vh;
+} #bricksHolder::before {
+  content: "Suggested Bricks";
+  color: yellow;
+  position: absolute;
+  border: solid 1px;
+  position: absolute;
+  left: -5%;
+  text-align: center;
+  width: 10%;
+  padding: 3px;
+  background-color: darkslategray;
+}
+
 /* bricks */
 .Holder {
   display: flex;
@@ -70,6 +143,7 @@
   align-content: space-between;
   gap: 5vh;
   position: absolute;
+  width: 90vw;
   top: 20%;
   left: 5%;
 }
@@ -91,6 +165,7 @@
 #brickHolder{
   height: 33vh;
   width: 33vh;
+  flex-shrink: 0;
   display: grid;
   grid-template-columns: [margin1] 2.5% [col1] 47.5% [col2] 47.5% [margin2] 2.5%;
   grid-template-rows: [margin1] 2.5% [row1] 10% [row2] 10% [row3] 10% [row4] 45% [row5] 20% [margin2] 2.5%;

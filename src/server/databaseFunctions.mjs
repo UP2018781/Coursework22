@@ -20,11 +20,12 @@ export async function queryBrick(ID) {
     let result;
     if (ID > 0){
         result  = await user.query(`SELECT * FROM bricks WHERE ID = ${ID}`);
+        user.release();
         return(await result.rows);
     } else {
         console.warn("ID has invalid attributes");
     }
-    await user.release();
+    user.release();
     return ([{
         id: null,
         colour: null,
@@ -36,7 +37,6 @@ export async function queryBrick(ID) {
 }
 
 export async function queryManyBricks(fetchBy) {
-    console.log("query run");
     const user = await pool.connect();
     let query = `SELECT * FROM bricks WHERE `;
     let and = false;
@@ -61,7 +61,7 @@ export async function queryManyBricks(fetchBy) {
         query = `select * from bricks`;
     }
     console.log(query);
-    await user.release();
+    user.release();
     const result = await user.query(query);
     return(await result.rows);
 }

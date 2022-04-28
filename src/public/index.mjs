@@ -2,6 +2,7 @@ import { fetchBrickInfo, fetchManyBricks, fetchSetInfo } from './requests.mjs';
 import {removeFromBasket, addBasket, queryBasket, initiateBasket} from './basket.mjs';
 import {initiateSets, removeButtonClickedSet} from './sets.mjs';
 import { addBrickHolders } from './bricks.mjs';
+import { initiateHome } from './home.mjs';
 
 function createLogo() {
   const logo = document.createElement("img");
@@ -249,6 +250,7 @@ if (window.location.href == 'http://localhost:8080/index.html' || window.locatio
   createLogo();
   createNavbar();
   createHolder();
+  initiateHome();
 }
 
 // initiate sets page
