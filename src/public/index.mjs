@@ -112,24 +112,29 @@ async function buyButtonClicked(e) {
   await current.stocklevel > 0 ? addBasket(await current) : alert('out of stock!');
 
   currentRemove.textContent = parseInt(currentRemove.textContent) + 1;
-
 }
 
 export function moreInfo(e) {
   if (e.target.id == 'brickHolder' || e.target.id == 'setHolder'){
-    e.target.style.width = '66vh';
-    e.target.style.height = '66vh';
-    e.target.removeEventListener("click", moreInfo);
-    e.target.addEventListener("click", lessInfo);
+    // grab all "expanded"
+    const exp = document.querySelectorAll(".expanded");
+    // if the clicked block is expanded
+    if (e.target.classList.contains("expanded")){
+      // remove all expanded
+      for (let elem of exp) {
+        console.log(elem);
+        elem.classList.remove("expanded");
+      }
+    } else {
+      // remove all expanded, and add to current block
+      for (let elem of exp) {
+        console.log(elem);
+        elem.classList.remove("expanded");
+      }
+      e.target.classList.add("expanded");
+    }
   }
 }
-export function lessInfo(e) {
-  e.target.style.width = '33vh';
-  e.target.style.height = '33vh';
-  e.target.removeEventListener("click", lessInfo);
-  e.target.addEventListener("click", moreInfo);
-}
-
 /**
  * removes all bricks on the page
  */

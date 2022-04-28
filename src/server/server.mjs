@@ -4,6 +4,7 @@ import * as path from 'path';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import * as db from './databaseFunctions.mjs';
+import authConfig from './auth-config.mjs';
 
 const server = express();
 const port = 8080;
@@ -25,6 +26,10 @@ server.post('/query_set', (req, res) => {
 })
 server.post('/query_many_sets', (req, res) => {
   queryManySets(req, res);
+})
+
+server.put('/update_stock', (req, res) => {
+  updateStock(req, res);
 })
 
 server.listen(port, () => {
@@ -56,6 +61,8 @@ async function querySet(req, res) {
   let setInfo = {};
   req.body.id > 0 ? setInfo = await db.querySet(req.body.id) : null;
 
+  setInfo = setInfo[0];
+  setInfo.id ? setInfo.type = 'set' : null; 
   res.status(200).json({
     setInfo,
   });
@@ -73,4 +80,9 @@ async function queryManySets(req, res) {
   res.status(200).json({
     setArray,
   });
+}
+
+async function updateStock(req, res) {
+  await db.updateStock(req.body.id, req.body.type, req.body.amount);
+  res.status(200);
 }

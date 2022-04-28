@@ -1,4 +1,3 @@
-
 /**
  * fetches by parameters determined by the object
  * 
@@ -8,7 +7,7 @@
  * @returns obj
  */
 export async function fetchBrickInfo(id) {
-    const response = await fetch(new URL('http://127.0.0.1:8080/query_brick'), {
+    const response = await fetch(new URL(`http://${window.location.host}/query_brick`), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -31,7 +30,7 @@ export async function fetchBrickInfo(id) {
  * @returns array
  */
 export async function fetchManyBricks(fetchBy) {
-    const response  = await fetch (new URL('http://127.0.0.1:8080/query_many_bricks'), {
+    const response  = await fetch (new URL(`http://${window.location.host}/query_many_bricks`), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -46,7 +45,7 @@ export async function fetchManyBricks(fetchBy) {
 }
 
 export async function fetchSetInfo(id) {
-    const response = await fetch(new URL('http://127.0.0.1:8080/query_set'), {
+    const response = await fetch(new URL(`http://${window.location.host}/query_set`), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -59,7 +58,7 @@ export async function fetchSetInfo(id) {
 }
 
 export async function fetchManySets(fetchBy) {
-    const response  = await fetch (new URL('http://127.0.0.1:8080/query_many_sets'), {
+    const response  = await fetch (new URL(`http://${window.location.host}/query_many_sets`), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -67,8 +66,20 @@ export async function fetchManySets(fetchBy) {
             colour: fetchBy.name,
             all: fetchBy.all,
         })
-    })
+    });
     const res = await response.json();
     const setArray = await res.setArray;
     return await setArray;
+}
+
+export async function updateStock(id, type, amount) {
+    await fetch(new URL(`http://${window.location.host}/update_stock`), {
+        method: 'PUT',
+        headers: { 'Content-Type' : 'application/json'},
+        body: JSON.stringify({
+            id: id,
+            type: type,
+            amount: amount,
+        })
+    });
 }

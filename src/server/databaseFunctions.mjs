@@ -15,17 +15,6 @@ pool.on('error', (err, client) => {
     process.exit(-1);
 })
 
-/**
- * 
- * @param {obj} fetchBy
- */
-export async function checkBrick(ID) {
-    const use = await pool.connect();
-    const result = await use.query("SELECT * FROM bricks;");
-    await use.release();
-    console.log(await result.rows);
-}
-
 export async function queryBrick(ID) {
     const user = await pool.connect();
     let result;
@@ -47,6 +36,7 @@ export async function queryBrick(ID) {
 }
 
 export async function queryManyBricks(fetchBy) {
+    console.log("query run");
     const user = await pool.connect();
     let query = `SELECT * FROM bricks WHERE `;
     let and = false;
@@ -71,6 +61,7 @@ export async function queryManyBricks(fetchBy) {
         query = `select * from bricks`;
     }
     console.log(query);
+    await user.release();
     const result = await user.query(query);
     return(await result.rows);
 }
@@ -108,6 +99,11 @@ export async function queryManySets(fetchBy) {
         query = `select * from sets`;
     }
     console.log(query);
+    await user.release();
     const result = await user.query(query);
     return(await result.rows);
+}
+
+export async function updateStock(id, type, amount) {
+
 }

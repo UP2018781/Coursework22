@@ -125,25 +125,25 @@ function removeAllSetHolders() {
  * @param {Event} e 
  */
 export async function removeButtonClickedSet(e) {
-    // get current item
-    let currentID = "";
-    const block = e.target.parentElement.parentElement;
-    let textID;
-    try{
-      textID = block.querySelector('#setID').textContent;
-    } catch {
-      textID = block.querySelector('#basketID').textContent;
-      block.remove();
+  // get current item
+  let currentID = "";
+  const block = e.target.parentElement.parentElement;
+  let textID;
+  try{
+    textID = block.querySelector('#setID').textContent;
+  } catch {
+    textID = block.querySelector('#basketID').textContent;
+    block.remove();
+  }
+  // s
+  // search text content of ID elem for the number
+  for (const i in textID) {
+    if (!isNaN(textID[i])) {
+      currentID = currentID.concat(textID[i]);
     }
-    // s
-    // search text content of ID elem for the number
-    for (const i in textID) {
-      if (!isNaN(textID[i])) {
-        currentID = currentID.concat(textID[i]);
-      }
-    }
-    const currentItem = await fetchSetInfo({id: currentID});
-    removeFromBasket(await currentItem);
-    const text = e.target.parentElement.querySelector('#basketAmount');
-    text.innerText = queryBasket(await currentItem);
+  }
+  const currentItem = await fetchSetInfo(currentID);
+  removeFromBasket(await currentItem);
+  const text = e.target.parentElement.querySelector('#basketAmount');
+  text.innerText = queryBasket(await currentItem);
 }

@@ -95,9 +95,11 @@ export async function initiateBasket() {
     let basket = window.localStorage.getItem("basket");
     basket == null ? basket = [] : basket = JSON.parse(basket);
     for (let i = 0; i < basket.length; i++) {
+        console.log(basket[i]);
         await createBasketItem(basket[i]);
     }
     completeButton();
+    createTotalCost();
 }
 
 /**
@@ -185,7 +187,7 @@ async function handlePayment() {
     let totalCost = 0;
     basket == null ? basket = []: basket = JSON.parse(basket);
     for(let i = 0; i < basket.length; i++) {
-        totalCost = totalCost + (basket[i].count * basket[i].price)
+        totalCost = totalCost + (basket[i].count * basket[i].price);
     }
     const confButton = document.createElement("button");
     confButton.textContent = "click to confirm you have paid";
@@ -194,10 +196,28 @@ async function handlePayment() {
     confButton.style.position = "absolute";
     confButton.addEventListener("click", (e) => {
         window.localStorage.setItem("costTaken", totalCost);
+        for (let i in basket) {
+            
+        }
+
+
         window.localStorage.removeItem("basket");
         window.location.href = './';
     })
     document.body.append(confButton);
+}
+
+function createTotalCost() {
+    let basket = window.localStorage.basket;
+    let totalCost = 0;
+    basket == null ? basket = []: basket = JSON.parse(basket);
+    for(let i = 0; i < basket.length; i++) {
+        totalCost = totalCost + (basket[i].count * basket[i].price)
+    }
+    const totalCostDisplay = document.createElement("span");
+    totalCostDisplay.id = 'totalCost';
+    totalCostDisplay.textContent =`$${totalCost}`;
+    document.body.append(totalCostDisplay);
 }
 
 if (window.location.href == 'http://localhost:8080/payment.html') {
