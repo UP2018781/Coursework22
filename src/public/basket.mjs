@@ -1,4 +1,5 @@
 import * as index from './index.mjs';
+import { updateStock } from './requests.mjs';
 export const colours = ["#FC97AC", "#D60026", "#4C61DB", "#237841", "#F2CD37", "#FE8A18"]
 
 /**
@@ -197,10 +198,8 @@ async function handlePayment() {
     confButton.addEventListener("click", (e) => {
         window.localStorage.setItem("costTaken", totalCost);
         for (let i in basket) {
-            
+            updateStock(basket[i].id, basket[i].type, basket[i].count);
         }
-
-
         window.localStorage.removeItem("basket");
         window.location.href = './';
     })

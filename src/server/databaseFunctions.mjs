@@ -6,7 +6,7 @@ const pool = new Pool({
     host: "localhost",
     user: "postgres",
     port: 5432,
-    password: "Pokemon100",
+    password: "Example",
     database: "legoshop"
 });
 
@@ -105,5 +105,22 @@ export async function queryManySets(fetchBy) {
 }
 
 export async function updateStock(id, type, amount) {
+    const user = await pool.connect();
+    let currentStock;
 
+    // get current stock level
+    console.log(id,type,amount);
+
+    if (type == 'brick') {
+        const reply = await user.query(`SELECT stocklevel FROM bricks WHERE id = ${id}`);
+        currentStock = await reply.rows[0];
+        const reply2 = await user.query(`UPDATE bricks SET stocklevel = ${currentStock - amount} WHERE id = ${id}`);
+        user.release();
+    }
+    if (type == 'set') {
+        const reply = await user.query(`SELECT stocklevel FROM sets WHERE id = ${id}`);
+        currentStock = reply.rows[0];
+        const reply2 = await user.query(`UPDATE sets SET stocklevel = ${currentStock - amount} WHERE id = ${id}`);
+        user.release();
+    }
 }
