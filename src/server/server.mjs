@@ -1,4 +1,5 @@
 import express from 'express';
+import { auth } from 'express-openid-connect';
 import fs from 'fs';
 import * as path from 'path';
 import cors from 'cors';
@@ -6,13 +7,13 @@ import bodyParser from 'body-parser';
 import * as db from './databaseFunctions.mjs';
 // import authConfig from './auth-config.mjs';
 
-const authConfig = {
-    authRequired: false,
-    auth0Logout: true,
-    secret: fs.readFileSync('./src/server/secret/serversecret.txt'),
-    baseURL: 'http://localhost:8080',
-    clientID: 'WTNeu7EimKPiz4YdTbYJjaR0hAEBvcNo',
-    issuerBaseURL: 'https://dev-iq1ursj1.us.auth0.com'
+const config = {
+  authRequired: false,
+  auth0Logout: true,
+  secret: fs.readFileSync('./src/server/secret/serversecret.txt'),
+  baseURL: 'http://localhost:8080/',
+  clientID: 'WTNeu7EimKPiz4YdTbYJjaR0hAEBvcNo',
+  issuerBaseURL: 'https://dev-iq1ursj1.us.auth0.com'
 }
 
 const server = express();
@@ -23,6 +24,7 @@ server.use(
   bodyParser.json()
 );
 server.use(cors());
+server.use(auth(config));
 
 server.post('/query_brick', (req, res) => {
   queryBrick(req, res);
