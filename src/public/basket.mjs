@@ -1,5 +1,5 @@
 import * as index from './index.mjs';
-import { updateStock } from './requests.mjs';
+import { fetchBrickInfo, fetchSetInfo, updateStock } from './requests.mjs';
 export const colours = ["#FC97AC", "#D60026", "#4C61DB", "#237841", "#F2CD37", "#FE8A18"]
 
 /**
@@ -119,6 +119,28 @@ function completeButton() {
  * update stock from website & process payment
  */
 async function completePurchase() {
+    let basket = window.localStorage.getItem("basket");
+    basket == null ? basket = [] : basket = JSON.parse(basket);
+
+    for (let i in basket) {
+        if (basket[i].type == 'brick'){
+            if (await fetchBrickInfo(basket[i].id).stockLevel < 1) {
+                console.log("out of stock!");
+                removeFromBasket(basket[i]);
+            } else {
+                console.log('instock of '+basket[i].id);
+            }
+        }
+        if (basket[i].type == 'set'){
+            if (await fetchSetInfo(basket[i].id).stockLevel < 1) {
+                console.log("out of stock!");
+                removeFromBasket(basket[i]);
+            } else {
+                console.log('instock of '+basket[i].id);
+            }
+        }
+    }
+
     window.location.href = './payment.html';
 }
 

@@ -108,19 +108,34 @@ export async function updateStock(id, type, amount) {
     const user = await pool.connect();
     let currentStock;
 
-    // get current stock level
-    console.log(id,type,amount);
 
+    // if a brick or a set
     if (type == 'brick') {
+        // get current stock level, needs to be up to date
         const reply = await user.query(`SELECT stocklevel FROM bricks WHERE id = ${id}`);
-        currentStock = await reply.rows[0];
-        const reply2 = await user.query(`UPDATE bricks SET stocklevel = ${currentStock - amount} WHERE id = ${id}`);
+        currentStock = await reply.rows[0].stocklevel;
+        // try updating stock level
+        try {
+            await user.query(`UPDATE bricks SET stocklevel = ${await currentStock - amount} WHERE id = ${id}`);
+            console.log(`update succeeded BRICK id = ${id}, stocklevel = ${await currentStock}, new stock  = ${currentStock - amount}`);
+        } catch {
+            console.log(`update to stock failed on bricks at id = ${id}, stocklevel = ${await currentStock}`);
+        }
+        // always remember to release user!
         user.release();
     }
     if (type == 'set') {
+        // get current stock level, needs to be up to date
         const reply = await user.query(`SELECT stocklevel FROM sets WHERE id = ${id}`);
-        currentStock = reply.rows[0];
-        const reply2 = await user.query(`UPDATE sets SET stocklevel = ${currentStock - amount} WHERE id = ${id}`);
+        currentStock = await reply.rows[0].stocklevel;
+        // try updating stock level
+        try {
+            await user.query(`UPDATE sets SET stocklevel = ${await currentStock - amount} WHERE id = ${id}`);
+            console.log(`update succeeded SET id = ${id}, stocklevel = ${await currentStock}, new stock  = ${currentStock - amount}`);
+        } catch {
+            console.log(`update to stock failed on bricks at id = ${id}, stocklevel = ${await currentStock}`);
+        }
+        // got to remember !
         user.release();
     }
 }

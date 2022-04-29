@@ -40,7 +40,21 @@ async function queryBrick(req, res) {
 
   let brickInfo = await db.queryBrick(await req.body.id)
   brickInfo = brickInfo[0];
-  brickInfo.id != null ? brickInfo.type = 'brick' : null;
+  try {
+    brickInfo.type = 'brick';
+    console.log(`brick fetched ${req.body.id}`);
+  } catch {
+    brickInfo = {
+      id: undefined,
+      colour: undefined,
+      stocklevel: 0,
+      price: undefined,
+      name: undefined,
+      description: undefined,
+      image: undefined,
+    }
+    console.warn("brick unknown");
+  }
   res.status(200).json({
     brickInfo,
   });

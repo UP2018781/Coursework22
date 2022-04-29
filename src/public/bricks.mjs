@@ -16,6 +16,8 @@ export async function createBrickHolder(brickInfo) {
     
     let brickID = document.createElement('span');
     brickID.id = "brickID";
+    let brickStocklevel = document.createElement('span');
+    brickStocklevel.id = "brickStocklevel";
     let brickColour = document.createElement('span');
     brickColour.id = "brickColour";
     let brickPrice = document.createElement('span');
@@ -30,6 +32,7 @@ export async function createBrickHolder(brickInfo) {
     await brickInfo.colour ? brickColour.textContent = `colour: ${brickInfo.colour}` : brickColour.textContent = 'colour not found';
     await brickInfo.name ? brickName.textContent = brickInfo.name :  brickName.textContent = 'unknown brick';
     await brickInfo.description ? brickDescription.textContent = brickInfo.description : brickDescription.textContent = `no Description`;
+    await brickInfo.stocklevel ? brickStocklevel.textContent = `${brickInfo.stocklevel} in stock` : brickStocklevel.textContent = 'no stock';
   
     brickHolder.addEventListener("click", moreInfo);
   
@@ -38,6 +41,7 @@ export async function createBrickHolder(brickInfo) {
     brickHolder.append(brickColour);
     brickHolder.append(brickPrice);
     brickHolder.append(brickDescription);
+    brickHolder.append(brickStocklevel);
     brickHolder.append(await createBuyButton(brickInfo));
     brickHolder.append(await createRemoveButton(brickInfo));
   

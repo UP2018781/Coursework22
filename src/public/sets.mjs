@@ -85,6 +85,8 @@ export async function createSetHolder (setInfo) {
 
     // add information
     if (await setInfo.type == "set") {
+      const setStocklevel = document.createElement('span');
+      setStocklevel.id = 'setStocklevel';
       const setID = document.createElement("span");
       setID.id = 'setID';
       const setName = document.createElement("span");
@@ -98,10 +100,11 @@ export async function createSetHolder (setInfo) {
       await setInfo.name ? setName.textContent = `${setInfo.name}` : setID.textContent = 'Unknown Set';
       await setInfo.price ? setPrice.textContent = `$${setInfo.price}` : setID.textContent = '$???';
       await setInfo.description ? setDescription.textContent = `${setInfo.description}` : setDescription.textContent = 'no description';
+      await setInfo.stocklevel ? setStocklevel.textContent = `${setInfo.stocklevel} in stock` : setStocklevel.textContent = `no stock`;
       
 
       setHolder.addEventListener("click", moreInfo);
-      setHolder.append(setID, setName, setPrice, setDescription);
+      setHolder.append(setID, setName, setPrice, setDescription, setStocklevel);
       setHolder.append(await createBuyButton(setInfo));
       setHolder.append(await createRemoveButton(setInfo));
       return setHolder;
