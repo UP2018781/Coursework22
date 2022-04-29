@@ -205,6 +205,10 @@ export function removeFromBasket(item) {
     window.localStorage.setItem("basket", basket);
 }
 
+/**
+ * handles the payment window
+ * updating stock, removing basket etc
+ */
 async function handlePayment() {
     let basket = window.localStorage.basket;
     let totalCost = 0;
@@ -228,6 +232,9 @@ async function handlePayment() {
     document.body.append(confButton);
 }
 
+/**
+ * gets the total cost from the basket
+ */
 function createTotalCost() {
     let basket = window.localStorage.basket;
     let totalCost = 0;

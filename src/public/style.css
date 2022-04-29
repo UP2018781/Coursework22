@@ -398,3 +398,18 @@
   grid-column: col2;
   grid-row: row4;
 }
+
+/* admin */
+
+#brickTable {
+  color: bisque;
+  width: 90vw;
+  display: grid;
+  grid-template-columns: [col1] 20% [col2] 20% [col3] 20% [col4] 20% [col5] 20%;
+}
+#setTable {
+  color: bisque;
+  width: 90vw;
+  display: grid;
+  grid-template-columns: [col1] 25% [col2] 25% [col3] 25% [col4] 25%;
+}

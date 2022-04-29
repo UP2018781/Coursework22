@@ -5,6 +5,7 @@
 ### pages
 
 All statically served to the clients, not sure if this is the best way to do it, may impliment server side page changing later but for now this works.
+Admin is currently statically served but this needs to be changed when login becomes implemented
 
 ### casing
 
@@ -23,7 +24,6 @@ the end users will be people who are looking to buy lego bricks from many age ra
 end users need to be able to:
 
 - easily navigate the website
-  - after doing a basic outline of the navigation bar, I got feedback which said the basket and contact us would be better as icons (basket and phone respectively)
 
 - see all the lego bricks available
 
@@ -31,63 +31,30 @@ end users need to be able to:
 
 - checkout & pay
 
-### to do
-
-- design a home page
-
-- design a store page
-
-- design a basket page
-
-- database
-  - design a database system that is accessible for the server.
-  - impliment the database system
-
-### done
-
-### maybe
-
 ## breakdown
 
 - # server
 
   - endpoints
-    - /fetchBrick
+    - /query_brick
 
-      fetch a specific bricks information from the database searchable by ID, Price or Colour.
-    - /fetchSet
+      fetch a specific bricks information from the database searchable by ID
+
+    - /query_set
 
       fetch a specific sets information from the database
-      also fetch any related bricks, to a certain extent, ID's and amount of bricks in an object
-  - database integration
+      also fetch any related bricks, to a certain extent, ID's
+
+    - query_many_bricks &
+    - query_many_sets
+
+      fetch brick or set information by a variable scopes, ID name price currently all(bool) currently allowed
+
+   - database integration
 
 - # database
 
-  - curated page
-    - setID's
-    - brickID's
-
-  - user storage
-    - username
-    - previous orders
-    - basketID
-  
-  - baskets
-    - lastupdate
-    - brickIDs
-    - setIDs
-
-  - brick storage
-    - brick number
-    - colour
-    - amount in stock
-    - price
-
-  - orders
-    - items included
-    - date
-    - time
-    - delivery status
+  ![databaseERD](./img/database1.png);
 
   these database items should be everything required to run the current state of the website
   along with allowing for some future implimentations (such as delivery tracking)
@@ -158,3 +125,13 @@ end users need to be able to:
     basket working as intended, mostly happy with the way this looks.
     made custom logo too:
   ![logo](./src/public/img/logo.gif)
+
+## progress 5
+
+  fully implemented public client
+  login does not work. Followed tutorials, tried different pieces of code etc. Will be unable to implement due to time constraints
+  Database functions with sets, bricks, bricksinsets
+  Npm run setup creates DB
+  client can keep track of stock
+  going to work on admin pannel 
+    note: admin pannel would be hidden behind a login wall in production

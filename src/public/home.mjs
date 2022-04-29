@@ -2,21 +2,30 @@ import { addBrickHolders, createBrickHolder} from "./bricks.mjs";
 import { createSetHolder } from './sets.mjs';
 import { fetchManyBricks, fetchBrickInfo, fetchUsersFavourites, fetchSuggestedSets, fetchSetInfo, fetchSuggestedBricks } from "./requests.mjs";
 
+/**
+ * adds required elements to the page
+ */
 export async function initiateHome() {
     createFavouritesHolder();
-    createSetsHolder();
+    createSuggestedSetsHolder();
     createBricksHolder();
     addFavourites();
     addSuggestedSets();
     addSuggestedBricks();
 }
 
+/**
+ * create a favourites holder styled by CSS
+ */
 function createFavouritesHolder() {
     const favouritesHolder = document.createElement("div");
     favouritesHolder.id = 'favouritesHolder';
     document.body.querySelector('.Holder').append(favouritesHolder);
 }
 
+/**
+ * add the users favourite bricks to the favourites holder
+ */
 async function addFavourites() {
     const favouritesArray = await fetchUsersFavourites();
     for (let i in favouritesArray){
@@ -24,12 +33,14 @@ async function addFavourites() {
     }
 }
 
-function createSetsHolder() {
+/**
+ * adds the users favourite sets to the page
+ */
+function createSuggestedSetsHolder() {
     const setsHolder = document.createElement("div");
     setsHolder.id = 'setsHolder';
     document.body.querySelector('.Holder').append(setsHolder);
 }
-
 async function addSuggestedSets() {
     const setsArray = await fetchSuggestedSets();
     for (let i in setsArray) {

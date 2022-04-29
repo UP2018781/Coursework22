@@ -6,10 +6,17 @@ import { initiateHome } from './home.mjs';
 
 let auth0 = null;
 
+/**
+ * creates home page logo
+ * click to go to home
+ */
 function createLogo() {
   const logo = document.createElement("img");
   logo.src = './img/logo.gif';
   logo.id = 'logo';
+  logo.addEventListener("click", (e) => {
+    window.location.href = '/';
+  })
   document.body.append(logo);
 }
 
@@ -117,6 +124,10 @@ async function buyButtonClicked(e) {
   currentRemove.textContent = parseInt(currentRemove.textContent) + 1;
 }
 
+/**
+ * expands brickHolders
+ * @param {event} e 
+ */
 export function moreInfo(e) {
   if (e.target.id == 'brickHolder' || e.target.id == 'setHolder'){
     // grab all "expanded"
@@ -138,6 +149,7 @@ export function moreInfo(e) {
     }
   }
 }
+
 /**
  * removes all bricks on the page
  */
@@ -152,7 +164,6 @@ function removeAllBrickHolders() {
     }
   }
 }
-// can be better implemented when database is implemented
 
 /**
  * uses the search bar to search through all the bricks available
@@ -247,89 +258,31 @@ function createNavbar() {
   document.body.append(navbar);
 }
 
-async function login() {
-  window.location.href = '/login';
-}
-function logout() {
-  auth0.logout({
-    returnTo: window.location.origin,
-  });
-}
-function createLogin() {
-  const loginbtn = document.createElement('button');
-  loginbtn.id = 'login';
-  loginbtn.textContent = 'log in';
-  loginbtn.addEventListener("click", login);
-  document.body.append(loginbtn);
-}
-function createLogout() {
-  const logoutbtn = document.createElement('button');
-  logoutbtn.id = 'logout';
-  logoutbtn.textContent = 'log out';
-  logoutbtn.addEventListener("click", logout);
-  document.body.append(logoutbtn);
-}
-async function getUserInfo() {
-  const userInfo = document.createElement("userInfo");
-  userInfo.textContent = `${'username'}`;
-  userInfo.id = 'userInfo';
-  document.body.append(userInfo);
-}
-// async function authPackage() {
-//   const s = document.createElement("script");
-//   s.src = 'https://cdn.auth0.com/js/auth0-spa-js/1.13/auth0-spa-js.production.js';
-//   console.log(s);
-//   document.body.append(s);
-// }
-
-async function initialiseClient() {
-  const config = await fetchAuthConfig();
-  auth0 = await createAuth0Client({
-    domain: config.domain,
-    client_id: config.clientID,
-  })
-}
-
-async function init() {
-  await initialiseClient();
-  console.log('auth0 init');
-  console.log({auth0});
-  console.log(await auth0.isAuthenticated());
-
-}
-
-
 // initiate home page
 if (window.location.href == 'http://localhost:8080/index.html' || window.location.href === 'http://localhost:8080/') {
   createLogo();
   createNavbar();
   createHolder();
   initiateHome();
-  getUserInfo();
-  createLogin();
-  createLogout();
+  createLoginLogout();
 }
 
 // initiate sets page
 if (window.location.href === 'http://localhost:8080/sets.html') {
-  authPackage();    
   createLogo();
   createNavbar();
   createHolder();
   initiateSets();
-  createLogin();
-  createLogout();
+  createLoginLogout();
 }
 
 // initiate bricks page
 if (window.location.href === 'http://localhost:8080/bricks.html') {
-  authPackage();  
   createLogo();
   createNavbar();
   createHolder();
-  createLogin();
-  createLogout();
   createSearch();
+  createLoginLogout();
   const fetchBy = {
     all: true,
   }
@@ -339,13 +292,43 @@ if (window.location.href === 'http://localhost:8080/bricks.html') {
 
 // initiate basket page
 if (window.location.href === 'http://localhost:8080/basket.html') {
-  authPackage();  
   createLogo();
   createNavbar();
   createHolder();
-  createLogin();
-  createLogout();
   initiateBasket();
+  createLoginLogout();
 }
 
-window.addEventListener("load", init);
+// auth0 retired functions which i couldnt get to work
+// they were going to be called on page load
+async function initClient() {
+  const config = await fetchAuthConfig();
+  auth0 = await createAuth0Client({
+    domain: config.domain,
+    client_id: config.clientID,
+  });
+}
+
+async function handleLogin() {
+  // console.log(await auth0);
+  // await auth0.logInWithRedirect({
+  //   redirect_uri: window.location.origin,
+  // })
+  window.location.href = './admin.html';
+}
+
+async function handleAuth0Redirect() {
+  const isAuthenticated = await auth0.isAuthenticated();
+  console.log(await isAuthenticated);
+}
+
+async function createLoginLogout() {
+  const loginBtn = document.createElement("button");
+  const logoutBtn = document.createElement("button");
+  loginBtn.id = 'login';
+  loginBtn.textContent = 'log in';
+  loginBtn.addEventListener("click", handleLogin);
+  logoutBtn.id = 'logout';
+  logoutBtn.textContent = 'log out';
+  document.body.append(loginBtn, logoutBtn);
+}

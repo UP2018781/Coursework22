@@ -2,6 +2,9 @@ import {moreInfo, createRemoveButton, createBuyButton} from './index.mjs';
 import {fetchSetInfo, fetchManySets} from './requests.mjs';
 import {removeFromBasket, addBasket, queryBasket, colours} from './basket.mjs';
 
+/**
+ * adds set holders to the page
+ */
 export async function initiateSets() {
     createSearch();
     attachSetHolders( await fetchManySets({all: true}));
@@ -53,7 +56,7 @@ async function handleSearch(e) {
 }
 
 /**
- * adds sets to the set holder
+ * adds set boxes to the page
  * @param {Array} setArray [{}, {}...]
  * @param {Number} amount 
  */
@@ -73,7 +76,7 @@ async function attachSetHolders (setArray, amount) {
 }
 
 /**
- * create a set box
+ * create a set holder
  * @param {obj} setInfo 
  */
 export async function createSetHolder (setInfo) {
@@ -112,7 +115,7 @@ export async function createSetHolder (setInfo) {
 }
 
 /**
- * remove all set boxes
+ * remove all set holders
  */
 function removeAllSetHolders() {
     const all = document.querySelectorAll('#setHolder');

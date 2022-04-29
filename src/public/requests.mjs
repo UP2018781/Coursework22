@@ -1,10 +1,8 @@
+
 /**
- * fetches by parameters determined by the object
- * 
- * fetchBy.id = 1;
- * fetches bricks with an ID of 1,
- * @param {obj} fetchBy 
- * @returns obj
+ * gets on object (brickInfo) from the server searched by ID
+ * @param {number} id 
+ * @returns 
  */
 export async function fetchBrickInfo(id) {
     const response = await fetch(new URL(`http://${window.location.host}/query_brick`), {
@@ -44,6 +42,11 @@ export async function fetchManyBricks(fetchBy) {
     return await brickArray;
 }
 
+/**
+ * gets an obj of setInfo from the database
+ * @param {number} id 
+ * @returns setInfo
+ */
 export async function fetchSetInfo(id) {
     const response = await fetch(new URL(`http://${window.location.host}/query_set`), {
         method: 'POST',
@@ -57,6 +60,16 @@ export async function fetchSetInfo(id) {
     return await setInfo;
 }
 
+/**
+ * fetches by parameter
+ * 
+ * id
+ * colour
+ * all (bool)
+ * 
+ * @param {*} fetchBy 
+ * @returns [{}, {}, {}...]
+ */
 export async function fetchManySets(fetchBy) {
     const response  = await fetch (new URL(`http://${window.location.host}/query_many_sets`), {
         method: 'POST',
@@ -72,6 +85,12 @@ export async function fetchManySets(fetchBy) {
     return await setArray;
 }
 
+/**
+ * removes the desired amount of "id" of type "type" from stock
+ * @param {number} id 
+ * @param {string} type brick/set
+ * @param {number} amount 
+ */
 export async function updateStock(id, type, amount) {
     await fetch(new URL(`http://${window.location.host}/update_stock`), {
         method: 'PUT',
@@ -84,6 +103,14 @@ export async function updateStock(id, type, amount) {
     });
 }
 
+/**
+ * NOT IMPEMENTED
+ * will return an array of brick ID's based on users preferences
+ * 
+ * currently returns static array
+ * @param {} userToken 
+ * @returns 
+ */
 export async function fetchUsersFavourites(userToken) {
     // const response  = await fetch (new URL(`http://${window.location.host}/get_favourites`), {
     //     method: 'POST',
@@ -98,6 +125,14 @@ export async function fetchUsersFavourites(userToken) {
     return await favourites;
 }
 
+/**
+ * NOT IMPEMENTED
+ * will return an array of set ID's based on users preferences
+ * 
+ * currently returns static array
+ * @param {} userToken 
+ * @returns 
+ */
 export async function fetchSuggestedSets(userToken) {
     // const response  = await fetch (new URL(`http://${window.location.host}/get_suggested_sets`), {
     //     method: 'POST',
@@ -113,11 +148,23 @@ export async function fetchSuggestedSets(userToken) {
     return await suggestedSets;
 }
 
+/**
+ * NOT IMPEMENTED
+ * will return an array of brick ID's based on users preferences
+ * 
+ * currently returns static array
+ * @param {*} userToken 
+ * @returns 
+ */
 export async function fetchSuggestedBricks(userToken) {
     const suggestedBricks = [7,6,5,8,9,10];
     return await suggestedBricks;
 }
 
+/**
+ * fetches auth config from server
+ * @returns obj
+ */
 export async function fetchAuthConfig() {
     const response = await fetch(new URL(`http://${window.location.host}/auth_config`));
     if (response.ok){

@@ -54,6 +54,11 @@ server.listen(port, () => {
   console.log(`server listening on port ${port}`);
 });
 
+/**
+ * gets the bricks from the database
+ * @param {*} req 
+ * @param {*} res 
+ */
 async function queryBrick(req, res) {
 
   let brickInfo = await db.queryBrick(await req.body.id)
@@ -78,6 +83,11 @@ async function queryBrick(req, res) {
   });
 }
 
+/**
+ * gets bricks from database
+ * @param {*} req 
+ * @param {*} res 
+ */
 async function queryManyBricks(req, res) {
   const brickArray = await db.queryManyBricks(await req.body);
   for (let i in brickArray){
@@ -89,6 +99,11 @@ async function queryManyBricks(req, res) {
   });
 }
 
+/**
+ * gets set from database
+ * @param {*} req 
+ * @param {*} res 
+ */
 async function querySet(req, res) {
   let setInfo = {};
   req.body.id > 0 ? setInfo = await db.querySet(req.body.id) : null;
@@ -100,6 +115,11 @@ async function querySet(req, res) {
   });
 }
 
+/**
+ * gets sets from database
+ * @param {*} req 
+ * @param {*} res 
+ */
 async function queryManySets(req, res) {
   const setArray = await db.queryManySets(req.body);
 
@@ -114,6 +134,11 @@ async function queryManySets(req, res) {
   });
 }
 
+/**
+ * updates stock of given item on the database
+ * @param {*} req 
+ * @param {*} res 
+ */
 async function updateStock(req, res) {
   await db.updateStock(req.body.id, req.body.type, req.body.amount);
   res.status(200);
