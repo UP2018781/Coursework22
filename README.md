@@ -1,19 +1,48 @@
 # _Lego Store_
 
+## Instructions
+
+### Setup
+
+requirements:
+
+- psql
+- node
+- npm
+
+npm run setup:
+
+- runs npm i
+- creates psql database and pipes the output of ./src/server/database.sql into it
+- you must enter your posgres default user password in order to create the role for the server
+
+npm start:
+
+- starts server
+
+### Usage
+
+go to http://localhost:8080/
+
+home page displays users favourites, suggested (both static for now)
+
+change pages by clicking the navbar
+
+in the bricks page find a full list of all the bricks on the database. 
+in the sets page same story
+
+add items from sets and bricks to your basket, total price will be displayed along with the amount of each item and some item info
+
+confirm purchase to go to fake window which would handle payment
+
+login/logout does not work. The login button takes you to the admin page (also non-functional) which would be used to update stock levels, change prices etc and generally manage the store. Logout is non-functional.
+
 ## Coding
 
 ### pages
 
 All statically served to the clients, not sure if this is the best way to do it, may impliment server side page changing later but for now this works.
 Admin is currently statically served but this needs to be changed when login becomes implemented
-
-### casing
-
-FunctionsLikeThis
-
-variablesLikeThis
-
-filesLike.this
 
 ## End users
 

@@ -1,6 +1,4 @@
-CREATE DATABASE legoshop2018781;
-
-\c legoshop2018781;
+CREATE ROLE server WITH LOGIN SUPERUSER PASSWORD 'password';
 
 CREATE TABLE bricks (
     ID SERIAL PRIMARY KEY,
@@ -76,7 +74,6 @@ VALUES
 
 INSERT INTO bricksInSets (brickID, brickAmount, setID)
 VALUES
-(19, 41, 1),
 (2780, 42, 1),
 (3020, 35, 1),
 (2412, 36, 2),

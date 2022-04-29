@@ -4,9 +4,9 @@ const { Pool, Client } = pkg;
 
 const pool = new Pool({
     host: "localhost",
-    user: "postgres",
+    user: "server",
     port: 5432,
-    password: "Example",
+    password: "password",
     database: "legoshop2018781"
 });
 
