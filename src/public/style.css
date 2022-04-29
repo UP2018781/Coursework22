@@ -243,8 +243,7 @@
   grid-template-rows: [margin1] 5% [row1] 20% [row2] 20% [row3] 20% [row4] 20% [row5] 15% [margin2] 5%;
 }
 .BasketBlock:hover {
-  border: solid darkslategrey !important;
-  height: 33vh !important;
+  background-color: darkslategrey !important;
 }
 .BasketBlock #remove {
   display: grid;

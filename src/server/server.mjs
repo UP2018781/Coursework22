@@ -6,6 +6,15 @@ import bodyParser from 'body-parser';
 import * as db from './databaseFunctions.mjs';
 // import authConfig from './auth-config.mjs';
 
+const authConfig = {
+    authRequired: false,
+    auth0Logout: true,
+    secret: fs.readFileSync('./src/server/secret/serversecret.txt'),
+    baseURL: 'http://localhost:8080',
+    clientID: 'WTNeu7EimKPiz4YdTbYJjaR0hAEBvcNo',
+    issuerBaseURL: 'https://dev-iq1ursj1.us.auth0.com'
+}
+
 const server = express();
 const port = 8080;
 
