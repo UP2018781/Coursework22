@@ -117,3 +117,12 @@ export async function fetchSuggestedBricks(userToken) {
     const suggestedBricks = [7,6,5,8,9,10];
     return await suggestedBricks;
 }
+
+export async function fetchAuthConfig() {
+    const response = await fetch(new URL(`http://${window.location.host}/auth_config`));
+    if (response.ok){
+        return(response.json());
+    } else {
+        throw response;
+    }
+}

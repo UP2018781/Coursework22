@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Lego Store",
   "scripts": {
-    "setup": "npm i --prod",
+    "setup": "createdb legoshop2018781 < src/server/database.sql",
     "start": "node src/server/server.mjs",
     "devstart": "nodemon src/server/server.mjs"
   },

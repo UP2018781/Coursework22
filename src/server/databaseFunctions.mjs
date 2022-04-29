@@ -7,7 +7,7 @@ const pool = new Pool({
     user: "postgres",
     port: 5432,
     password: "Example",
-    database: "legoshop"
+    database: "legoshop2018781"
 });
 
 pool.on('error', (err, client) => {

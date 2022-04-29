@@ -5,7 +5,7 @@ import * as path from 'path';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import * as db from './databaseFunctions.mjs';
-// import authConfig from './auth-config.mjs';
+import auth_config from './auth0-config.mjs';
 
 const config = {
   authRequired: false,
@@ -25,6 +25,13 @@ server.use(
 );
 server.use(cors());
 server.use(auth(config));
+
+server.get('/auth_config', (req, res) => {
+  res.status(200).json(auth_config);
+})
+server.get('/', (req,res) => {
+  res.send(req.oidc.isAuthenticated() ? 'logged in' : 'logged out');
+})
 
 server.post('/query_brick', (req, res) => {
   queryBrick(req, res);

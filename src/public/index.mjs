@@ -1,8 +1,10 @@
-import { fetchBrickInfo, fetchManyBricks, fetchSetInfo } from './requests.mjs';
+import { fetchAuthConfig, fetchBrickInfo, fetchManyBricks, fetchSetInfo } from './requests.mjs';
 import {removeFromBasket, addBasket, queryBasket, initiateBasket} from './basket.mjs';
 import {initiateSets, removeButtonClickedSet} from './sets.mjs';
 import { addBrickHolders } from './bricks.mjs';
 import { initiateHome } from './home.mjs';
+
+let auth0 = null;
 
 function createLogo() {
   const logo = document.createElement("img");
@@ -245,28 +247,88 @@ function createNavbar() {
   document.body.append(navbar);
 }
 
+async function login() {
+  window.location.href = '/login';
+}
+function logout() {
+  auth0.logout({
+    returnTo: window.location.origin,
+  });
+}
+function createLogin() {
+  const loginbtn = document.createElement('button');
+  loginbtn.id = 'login';
+  loginbtn.textContent = 'log in';
+  loginbtn.addEventListener("click", login);
+  document.body.append(loginbtn);
+}
+function createLogout() {
+  const logoutbtn = document.createElement('button');
+  logoutbtn.id = 'logout';
+  logoutbtn.textContent = 'log out';
+  logoutbtn.addEventListener("click", logout);
+  document.body.append(logoutbtn);
+}
+async function getUserInfo() {
+  const userInfo = document.createElement("userInfo");
+  userInfo.textContent = `${'username'}`;
+  userInfo.id = 'userInfo';
+  document.body.append(userInfo);
+}
+// async function authPackage() {
+//   const s = document.createElement("script");
+//   s.src = 'https://cdn.auth0.com/js/auth0-spa-js/1.13/auth0-spa-js.production.js';
+//   console.log(s);
+//   document.body.append(s);
+// }
+
+async function initialiseClient() {
+  const config = await fetchAuthConfig();
+  auth0 = await createAuth0Client({
+    domain: config.domain,
+    client_id: config.clientID,
+  })
+}
+
+async function init() {
+  await initialiseClient();
+  console.log('auth0 init');
+  console.log({auth0});
+  console.log(await auth0.isAuthenticated());
+
+}
+
+
 // initiate home page
 if (window.location.href == 'http://localhost:8080/index.html' || window.location.href === 'http://localhost:8080/') {
   createLogo();
   createNavbar();
   createHolder();
   initiateHome();
+  getUserInfo();
+  createLogin();
+  createLogout();
 }
 
 // initiate sets page
 if (window.location.href === 'http://localhost:8080/sets.html') {
+  authPackage();    
   createLogo();
   createNavbar();
   createHolder();
   initiateSets();
+  createLogin();
+  createLogout();
 }
 
 // initiate bricks page
 if (window.location.href === 'http://localhost:8080/bricks.html') {
+  authPackage();  
   createLogo();
   createNavbar();
   createHolder();
-  // createFilter();
+  createLogin();
+  createLogout();
   createSearch();
   const fetchBy = {
     all: true,
@@ -277,8 +339,13 @@ if (window.location.href === 'http://localhost:8080/bricks.html') {
 
 // initiate basket page
 if (window.location.href === 'http://localhost:8080/basket.html') {
+  authPackage();  
   createLogo();
   createNavbar();
   createHolder();
+  createLogin();
+  createLogout();
   initiateBasket();
 }
+
+window.addEventListener("load", init);
